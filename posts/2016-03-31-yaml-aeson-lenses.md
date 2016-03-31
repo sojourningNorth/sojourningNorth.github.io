@@ -228,6 +228,7 @@ loadServerConfig file = do
  
 -- After
 loadServerConfig :: String -> IO Value
+loadServerConfig file = do
   handle <- decodeFile file
   case handle of
     Nothing ->
