@@ -269,6 +269,11 @@ loadServerConfig file = do
 </code></pre>
 <h2 id="conclusion">Conclusion</h2>
 <p>Not a huge difference, right? I gained some sane defaults by using <code>fromMaybe</code>, and the best part, the whole point of this exercise: <strong>I was able to completely get rid of <code>ServerConfig.hs</code></strong>.</p>
+<h2 id="update-a-warning">Update: A Warning</h2>
+<p>As point out by <a href="https://www.reddit.com/r/haskell/comments/4coyqo/yaml_aeson_lenses/d1k7s4l">/u/tdammers</a>:</p>
+<blockquote>
+<p>“Note that this isn’t a win-win; you’re sacrificing some type safety for convenience. One particular advantage of the typed approach is that the only bit of configuration-related code that can possibly fail is the part that parses the YAML file into your typed data structures; any mistakes you make elsewhere will amount to compiler errors. By contrast, the”dynamic&quot; approach defers all schema errors to run time, so if your YAML file happens to not match the expectations of your code, you won’t find out until that code actually runs.&quot;</p>
+</blockquote>
 
 <div id="disqus_thread"></div>
 <script>
