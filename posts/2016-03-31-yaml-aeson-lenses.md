@@ -250,3 +250,9 @@ And accessing the config fields changed to this:
 ## Conclusion
 
 Not a huge difference, right? I gained some sane defaults by using `fromMaybe`, and the best part, the whole point of this exercise: **I was able to completely get rid of `ServerConfig.hs`**.
+
+## Update: A Warning
+
+As point out by [/u/tdammers](https://www.reddit.com/r/haskell/comments/4coyqo/yaml_aeson_lenses/d1k7s4l):
+
+> "Note that this isn't a win-win; you're sacrificing some type safety for convenience. One particular advantage of the typed approach is that the only bit of configuration-related code that can possibly fail is the part that parses the YAML file into your typed data structures; any mistakes you make elsewhere will amount to compiler errors. By contrast, the "dynamic" approach defers all schema errors to run time, so if your YAML file happens to not match the expectations of your code, you won't find out until that code actually runs."
