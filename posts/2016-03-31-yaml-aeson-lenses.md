@@ -2,6 +2,16 @@
 title: YAML + Aeson Lenses
 ---
 
+## Update: A Warning
+
+As pointed out by [/u/tdammers](https://www.reddit.com/r/haskell/comments/4coyqo/yaml_aeson_lenses/d1k7s4l):
+
+> "Note that this isn't a win-win; you're sacrificing some type safety for convenience. One particular advantage of the typed approach is that the only bit of configuration-related code that can possibly fail is the part that parses the YAML file into your typed data structures; any mistakes you make elsewhere will amount to compiler errors. By contrast, the "dynamic" approach defers all schema errors to run time, so if your YAML file happens to not match the expectations of your code, you won't find out until that code actually runs."
+
+In my excitement at not having to spend an hour or two writing boilerplate I overlooked one of the most important reasons I am using Haskell: type safety at compile time. The solution below is still incredibly cool and shows the power of various libraries the Haskell ecosystem has to offer, however, I ended up reverting these changes and spending the rest of the evening writing the more concise type safe version.
+
+# The Story
+
 I was refactoring some [Armored Bits](https://armoredbits.com/) code over the last couple of days to pull some hard coded test values out into the more sane yaml configuration file I've started using recently. As I begun adding more fields to the yaml I realized that this was not going to scale well with regards to my time when fleshing out the corresponding Haskell data structures.
 
 ## In The Beginning
@@ -127,7 +137,7 @@ instance FromJSON Config where
   parseJSON (Object v) =  Config
                           <$> (v .: "server")
                           <*> (v .: "game")
-  parseJSON _ = error "Can't parse Config from YAML/JSON"pre>
+  parseJSON _ = error "Can't parse Config from YAML/JSON"
 </code></pre>
 
 ## Adding More Fields: Ughhh
@@ -207,7 +217,7 @@ game:
         armor: Armor Type A
 </code></pre>
 
-No way was I going to write out all of those definitions out in Haskell!
+No way was I going to write out all of those definitions in Haskell!
 
 ## Aeson + Lens
 
@@ -251,8 +261,3 @@ And accessing the config fields changed to this:
 
 Not a huge difference, right? I gained some sane defaults by using `fromMaybe`, and the best part, the whole point of this exercise: **I was able to completely get rid of `ServerConfig.hs`**.
 
-## Update: A Warning
-
-As point out by [/u/tdammers](https://www.reddit.com/r/haskell/comments/4coyqo/yaml_aeson_lenses/d1k7s4l):
-
-> "Note that this isn't a win-win; you're sacrificing some type safety for convenience. One particular advantage of the typed approach is that the only bit of configuration-related code that can possibly fail is the part that parses the YAML file into your typed data structures; any mistakes you make elsewhere will amount to compiler errors. By contrast, the "dynamic" approach defers all schema errors to run time, so if your YAML file happens to not match the expectations of your code, you won't find out until that code actually runs."
