@@ -2,7 +2,7 @@
 title: Massive Virtual World Simulations
 ---
 
-Well, it seems some German folk, specifically [@vektorweg](https://twitter.com/vektorweg) and [@focx](https://twitter.com/focx), have convinced me to write a blog post about some random topic I puked out over Twitter earlier this evening. The following is some convoluted and potentially incoherent rehashing of an idea I've been stewing on for over a decade.
+Well, it seems some German folk, specifically [vektorweg](https://twitter.com/vektorweg) and [focx](https://twitter.com/focx), have convinced me to write a blog post about some random topic I puked out over Twitter earlier this evening. The following is some convoluted and potentially incoherent rehashing of an idea I've been stewing on for over a decade.
 
 ## Background
 
