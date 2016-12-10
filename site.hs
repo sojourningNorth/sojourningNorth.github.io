@@ -1,8 +1,16 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Hakyll
 
+import Hakyll
+
+myFeedConfig :: FeedConfiguration
+myFeedConfig = FeedConfiguration
+  { feedTitle       = "brian.uncannyworks.com"
+  , feedDescription = "Brian's Technical Blog"
+  , feedAuthorName  = "Brian Jones"
+  , feedAuthorEmail = "brian@uncannyworks.com"
+  , feedRoot        = "http://brian.uncannyworks.com"
+  }
 
 --------------------------------------------------------------------------------
 main :: IO ()
@@ -57,7 +65,6 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" archiveCtx
                 >>= relativizeUrls
 
-
     match "index.html" $ do
         route idRoute
         compile $ do
@@ -74,6 +81,17 @@ main = hakyll $ do
 
     match "templates/*" $ compile templateCompiler
 
+    createFeed "atom.xml" renderAtom
+    createFeed "feed.xml" renderRss
+
+    where
+      createFeed n f =
+         create [n] $ do
+           route idRoute
+           compile $ do
+             let feedCtx = postCtx `mappend` constField "description" "Post description"
+             posts <- fmap (take 10) . recentFirst =<< loadAll "posts/*"
+             f myFeedConfig feedCtx posts
 
 --------------------------------------------------------------------------------
 postCtx :: Context String

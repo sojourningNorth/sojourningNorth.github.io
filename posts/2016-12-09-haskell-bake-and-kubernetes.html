@@ -1,27 +1,56 @@
----
-title: Haskell Bake and Kubernetes
----
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>brian.uncannyworks.com - Haskell Bake and Kubernetes</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
+        <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
+        <script src="../js/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1531113-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+      </script>
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="../">brian.uncannyworks.com</a>
+            </div>
+            <div id="navigation">
+                <a href="../pages/resume.html">Game Resume</a>
+                <a href="../archive.html">Archive</a>
+                <a href="https://twitter.com/mojobojo">@mojobojo</a>
+                <a href="https://github.com/boj">boj@GitHub</a>
+            </div>
+        </div>
 
-## Background
+        <div id="content">
+            <h1>Haskell Bake and Kubernetes</h1>
+<div class="info">
+    Posted on December  9, 2016
+    
+</div>
 
-I work at a relatively large 150 employee Japanese social game company as the Lead Infrastructure Engineer on one of their various game projects. My primary duties include building server infrastructure, automating all the things, helping the server programming team out so they can focus on their jobs and not worry about the rest, and handling things if it all goes south. (DevOps, SRE, etc.)
-
-## Discussion
-
-We have a small Kubernetes cluster which I run in order for the client team to be able to test their changes against the stable staging server build and the ever changing development build. Since these server instances see quite a bit of idle time I've decided to utilize their extra resources for other things my team needs, such as a build server. I wanted to avoid using memory hungry CI/CDs like Jenkins or Bamboo, and after having recently stumbled across a Haskell CI project called Bake decided to give it a shot.
-
-This post describes how I have leveraged [Bake](https://github.com/ndmitchell/bake) and the power of Kubernetes to create an easily scalable build system which does automated testing (and eventually docker builds and deploys) for my server team. One of the exciting things about this setup is that it becomes relatively trivial to create build servers tuned towards what your project needs. In my case our server team uses Python's Django which does integration tests against the database. Utilizing Kubernetes *pods*, I was able to link a MySQL container along with a Bake client container inside the same *pod* to use for locally ran integration tests.
-
-Note: This post is fairly code heavy and doesn't go into deep philosophical reasons on why I made various decisions. It is meant it be more of a guide to help others bootstrap their own Bake build + K8S cluster.
-
-## Haskell
-
-I'm a huge Haskell fan. If I wasn't working primarily on server infrastructure I could see myself coding in this beautiful language instead. Unfortunately there's little chance of buy in where I currently work, so sneaking it into side projects is the next best thing.
-
-### Step 1 - Build Server
-
-For starters we need our Bake CI server. The project maintainer is still actively working on the project (currently v0.5), although there's not much in the way of examples on advanced usage and configuration yet. That said it's fairly trivial to chain actions together and use `cmd` to run what you want.
-
+<h2 id="background">Background</h2>
+<p>I work at a relatively large 150 employee Japanese social game company as the Lead Infrastructure Engineer on one of their various game projects. My primary duties include building server infrastructure, automating all the things, helping the server programming team out so they can focus on their jobs and not worry about the rest, and handling things if it all goes south. (DevOps, SRE, etc.)</p>
+<h2 id="discussion">Discussion</h2>
+<p>We have a small Kubernetes cluster which I run in order for the client team to be able to test their changes against the stable staging server build and the ever changing development build. Since these server instances see quite a bit of idle time I’ve decided to utilize their extra resources for other things my team needs, such as a build server. I wanted to avoid using memory hungry CI/CDs like Jenkins or Bamboo, and after having recently stumbled across a Haskell CI project called Bake decided to give it a shot.</p>
+<p>This post describes how I have leveraged <a href="https://github.com/ndmitchell/bake">Bake</a> and the power of Kubernetes to create an easily scalable build system which does automated testing (and eventually docker builds and deploys) for my server team. One of the exciting things about this setup is that it becomes relatively trivial to create build servers tuned towards what your project needs. In my case our server team uses Python’s Django which does integration tests against the database. Utilizing Kubernetes <em>pods</em>, I was able to link a MySQL container along with a Bake client container inside the same <em>pod</em> to use for locally ran integration tests.</p>
+<p>Note: This post is fairly code heavy and doesn’t go into deep philosophical reasons on why I made various decisions. It is meant it be more of a guide to help others bootstrap their own Bake build + K8S cluster.</p>
+<h2 id="haskell">Haskell</h2>
+<p>I’m a huge Haskell fan. If I wasn’t working primarily on server infrastructure I could see myself coding in this beautiful language instead. Unfortunately there’s little chance of buy in where I currently work, so sneaking it into side projects is the next best thing.</p>
+<h3 id="step-1---build-server">Step 1 - Build Server</h3>
+<p>For starters we need our Bake CI server. The project maintainer is still actively working on the project (currently v0.5), although there’s not much in the way of examples on advanced usage and configuration yet. That said it’s fairly trivial to chain actions together and use <code>cmd</code> to run what you want.</p>
 <pre><code class="haskell">
 module Main where
 
@@ -83,17 +112,11 @@ main = do
     ovenTest (return allActions) execute
     defaultOven { ovenServer = ("127.0.0.1", 5000) }
 </code></pre>
-
-There's not really much to discuss in regards to the above except that more functionality will be added in the future, specifically building and pushing new docker builds out to the development cluster. If all of the tests pass it will automatically merge into `master`, and the result published to our ChatWork build channel.
-
-Currently the body of the message posted to ChatWork comes out as html. I need to examine this a little further to see how to make better output.
-
-### Step 2 - Hook Server
-
-Next is the web hook server. Our company uses [https://bitbucket.org](https://bitbucket.org) and I needed something that could act as an intermediary between it the Bake server for web hook triggers. I rolled my own with Servant.
-
-Right now it only processes Push triggers which were applied to our `develop` branch.
-
+<p>There’s not really much to discuss in regards to the above except that more functionality will be added in the future, specifically building and pushing new docker builds out to the development cluster. If all of the tests pass it will automatically merge into <code>master</code>, and the result published to our ChatWork build channel.</p>
+<p>Currently the body of the message posted to ChatWork comes out as html. I need to examine this a little further to see how to make better output.</p>
+<h3 id="step-2---hook-server">Step 2 - Hook Server</h3>
+<p>Next is the web hook server. Our company uses <a href="https://bitbucket.org" class="uri">https://bitbucket.org</a> and I needed something that could act as an intermediary between it the Bake server for web hook triggers. I rolled my own with Servant.</p>
+<p>Right now it only processes Push triggers which were applied to our <code>develop</code> branch.</p>
 <pre><code class="haskell">
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -194,17 +217,11 @@ receiveBuild bb =
 main :: IO ()
 main = Warp.run 8080 $ serve buildApi server
 </code></pre>
-
-There is some configuration cleanup that can go into this, but so far it does what it is supposed to which is simply ferrying the commit author and hash to the Bake server.
-
-The output from the Bake server gets pushed back to BitBucket and can be reviewed in your project's web hook page.
-
-## Docker
-
-In order to connect all of the pieces of the puzzle together we use Docker containers as the glue. I build the above projects with docker enabled in the `stack.yaml` for each project.
-
-### Build Server Entrypoint
-
+<p>There is some configuration cleanup that can go into this, but so far it does what it is supposed to which is simply ferrying the commit author and hash to the Bake server.</p>
+<p>The output from the Bake server gets pushed back to BitBucket and can be reviewed in your project’s web hook page.</p>
+<h2 id="docker">Docker</h2>
+<p>In order to connect all of the pieces of the puzzle together we use Docker containers as the glue. I build the above projects with docker enabled in the <code>stack.yaml</code> for each project.</p>
+<h3 id="build-server-entrypoint">Build Server Entrypoint</h3>
 <pre><code>
 #!/bin/sh
 
@@ -219,13 +236,9 @@ case "$BUILD_TYPE" in
         ;;
 esac
 </code></pre>
-
-### Build Server
-
-Uses the stack-run docker container provided by FPComplete.
-
-This also pulls in all the requirements the server team needs so their Django app can be ran inside the container.
-
+<h3 id="build-server">Build Server</h3>
+<p>Uses the stack-run docker container provided by FPComplete.</p>
+<p>This also pulls in all the requirements the server team needs so their Django app can be ran inside the container.</p>
 <pre><code>
 FROM fpco/stack-run
 MAINTAINER "Brian Jones" &lt;jones@my-company.com&gt;
@@ -252,9 +265,7 @@ EXPOSE 5000
 
 ENTRYPOINT ["/usr/local/bin/run.sh"]
 </code></pre>
-
-### Hook Server
-
+<h3 id="hook-server">Hook Server</h3>
 <pre><code>
 FROM fpco/stack-run
 MAINTAINER "Brian Jones" &lt;jones@my-company.com&gt;
@@ -266,15 +277,10 @@ EXPOSE 8080
 
 ENTRYPOINT ["/usr/local/bin/build-hook"]
 </code></pre>
-
-## Kubernetes
-
-For the record our cluster is built on top of AWS with the CoreOS team's [kube-aws](https://github.com/coreos/kube-aws) tool.
-
-### Namespaces
-
-We use Kubernetes namespaces to keep our environments logically separated. I started by creating a namespace for our build system.
-
+<h2 id="kubernetes">Kubernetes</h2>
+<p>For the record our cluster is built on top of AWS with the CoreOS team’s <a href="https://github.com/coreos/kube-aws">kube-aws</a> tool.</p>
+<h3 id="namespaces">Namespaces</h3>
+<p>We use Kubernetes namespaces to keep our environments logically separated. I started by creating a namespace for our build system.</p>
 <pre><code>
 $ kubectl namespace create my-project-build
 $ kubectl get namespaces
@@ -285,13 +291,9 @@ my-project-build         Active    1d
 my-project-development   Active    17d
 my-project-staging       Active    17d
 </code></pre>
-
-### Master Build and Hook Service
-
-This defines two Kubernetes *service*s which run on port 5000 (build) and 8080 (hook). It also defines whatever env variables are needed internally, such as ChatWork tokens for reporting.
-
-One final thing to note is that it loads SSH keys into a container volume via Kubernetes *secrets*. We want to avoid baking them directly into our container so they can be quickly revoked and/or replaced.
-
+<h3 id="master-build-and-hook-service">Master Build and Hook Service</h3>
+<p>This defines two Kubernetes <em>service</em>s which run on port 5000 (build) and 8080 (hook). It also defines whatever env variables are needed internally, such as ChatWork tokens for reporting.</p>
+<p>One final thing to note is that it loads SSH keys into a container volume via Kubernetes <em>secrets</em>. We want to avoid baking them directly into our container so they can be quickly revoked and/or replaced.</p>
 <pre><code>
 apiVersion: v1
 kind: Service
@@ -351,9 +353,7 @@ spec:
       imagePullSecrets:
         - name: us-west-2-ecr-registry
 </code></pre>
-
-The command for loading your project SSH keys into Kubernetes:
-
+<p>The command for loading your project SSH keys into Kubernetes:</p>
 <pre><code>
 ssh-keyscan bitbucket.org >> /tmp/known_hosts
 kubectl --namespace build delete secret build-ssh-keys
@@ -362,19 +362,12 @@ kubectl --namespace build create secret generic build-ssh-keys \
 	--from-file=id_rsa.pub=tool/build-server/.ssh/tbs.pub \
 	--from-file=known_hosts=/tmp/known_hosts
 </code></pre>
-
-I add known_hosts this way so I don't have to bake them it into the docker container and can update them when I do a security audit.
-
-You **probably** don't want to be loading known_hosts this way without manually verifying the SSH fingerprints yourself first.
-
-Consult the Kubernetes documentation on *secrets* to get an idea of how you may want to limit access via *services accounts*.
-
-### Client Build Service
-
-The main thing to note is that we tie the Bake client container together with a MySQL container so that it can run the server team's integration tests. One could easily swap that out for another database, maybe add a cache server container to the pod, and whatever else is required to get all of your tests passing. Each of these things are exposed locally as if they were all running on the same server.
-
-I use "127.0.0.1" instead of "localhost" for MySQL because it expects to be connecting to a socket if the latter is defined.
-
+<p>I add known_hosts this way so I don’t have to bake them it into the docker container and can update them when I do a security audit.</p>
+<p>You <strong>probably</strong> don’t want to be loading known_hosts this way without manually verifying the SSH fingerprints yourself first.</p>
+<p>Consult the Kubernetes documentation on <em>secrets</em> to get an idea of how you may want to limit access via <em>services accounts</em>.</p>
+<h3 id="client-build-service">Client Build Service</h3>
+<p>The main thing to note is that we tie the Bake client container together with a MySQL container so that it can run the server team’s integration tests. One could easily swap that out for another database, maybe add a cache server container to the pod, and whatever else is required to get all of your tests passing. Each of these things are exposed locally as if they were all running on the same server.</p>
+<p>I use “127.0.0.1” instead of “localhost” for MySQL because it expects to be connecting to a socket if the latter is defined.</p>
 <pre><code>
 apiVersion: v1
 kind: ConfigMap
@@ -463,20 +456,15 @@ spec:
       imagePullSecrets:
         - name: us-west-2-ecr-registry
 </code></pre>
-
-This service creates and maintains 4 build clients. As your commit volume and test time increases you can simply use kubectl commands to scale out and keep your developers happy.
-
-### Ingress
-
-The next piece of the puzzle is allowing outside world access to our build cluster. There's numerous ways to handle this, I've chosen to use an Ingress and expose it behind a LoadBalancer.
-
-First we need an *ingress controller* and a default backend for it. The following snippets are available via the Kubernetes contrib GitHub repo.
-
-* [rc-default.yaml](https://github.com/kubernetes/contrib/blob/master/ingress/controllers/nginx/examples/default/rc-default.yaml)
-* [default-backend.yaml](https://github.com/kubernetes/contrib/blob/master/ingress/controllers/nginx/examples/default-backend.yaml)
-
-And finally our actual *ingress* which routes domain names to our backend services.
-
+<p>This service creates and maintains 4 build clients. As your commit volume and test time increases you can simply use kubectl commands to scale out and keep your developers happy.</p>
+<h3 id="ingress">Ingress</h3>
+<p>The next piece of the puzzle is allowing outside world access to our build cluster. There’s numerous ways to handle this, I’ve chosen to use an Ingress and expose it behind a LoadBalancer.</p>
+<p>First we need an <em>ingress controller</em> and a default backend for it. The following snippets are available via the Kubernetes contrib GitHub repo.</p>
+<ul>
+<li><a href="https://github.com/kubernetes/contrib/blob/master/ingress/controllers/nginx/examples/default/rc-default.yaml">rc-default.yaml</a></li>
+<li><a href="https://github.com/kubernetes/contrib/blob/master/ingress/controllers/nginx/examples/default-backend.yaml">default-backend.yaml</a></li>
+</ul>
+<p>And finally our actual <em>ingress</em> which routes domain names to our backend services.</p>
 <pre><code>
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -499,20 +487,40 @@ spec:
           serviceName: build-master
           servicePort: 8080
 </code></pre>
-
-The last step is to expose this to the world behind a LoadBalancer.
-
+<p>The last step is to expose this to the world behind a LoadBalancer.</p>
 <pre><code>
 $ kubectl --namespace toulove-build expose rc nginx-ingress-controller \
   --type=LoadBalancer --port=80 --target-port=80
 </code></pre>
+<p>In my specific case this makes an ELB on AWS, after which I lock it down with a Security Group which only allows access from my company and the bitbucket web hook IP range.</p>
+<h2 id="conclusion">Conclusion</h2>
+<div class="figure">
+<img src="../images/bake-build.png" />
 
-In my specific case this makes an ELB on AWS, after which I lock it down with a Security Group which only allows access from my company and the bitbucket web hook IP range.
+</div>
+<p>My team’s commits are successful being sent to the cluster, divvied out to the Bake clients, tested, and the results published to our build chat. Success!</p>
+<p>If you’d like to get in touch with me and ask questions don’t hesitate to convert the domain this blog is attached to into an email address and reach out to me.</p>
 
-## Conclusion
+<div id="disqus_thread"></div>
+<script>
+this.page.url = "/posts/2016-12-09-haskell-bake-and-kubernetes.html";
+this.page.identifier = "Haskell Bake and Kubernetes";
 
-![](/images/bake-build.png)
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
 
-My team's commits are successful being sent to the cluster, divvied out to the Bake clients, tested, and the results published to our build chat. Success!
+s.src = '//mojobojo.disqus.com/embed.js';
 
-If you'd like to get in touch with me and ask questions don't hesitate to convert the domain this blog is attached to into an email address and reach out to me.
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+        </div>
+        <div id="footer">
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </div>
+    </body>
+</html>
