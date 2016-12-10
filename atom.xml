@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>brian.uncannyworks.com</title>
+    <link href="http://brian.uncannyworks.com/atom.xml" rel="self" />
+    <link href="http://brian.uncannyworks.com" />
+    <id>http://brian.uncannyworks.com/atom.xml</id>
+    <author>
+        <name>Brian Jones</name>
+        <email>brian@uncannyworks.com</email>
+    </author>
+    <updated>2016-12-09T00:00:00Z</updated>
+    <entry>
+    <title>Haskell Bake and Kubernetes</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-12-09-haskell-bake-and-kubernetes.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-12-09-haskell-bake-and-kubernetes.html</id>
+    <published>2016-12-09T00:00:00Z</published>
+    <updated>2016-12-09T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>2016-12-09-haskell-bake-and-kubernetes</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-12-09-haskell-bake-and-kubernetes.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-12-09-haskell-bake-and-kubernetes.html</id>
+    <published>2016-12-09T00:00:00Z</published>
+    <updated>2016-12-09T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Massive Virtual World Simulations</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-08-17-massive-virtual-world-simulations.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-08-17-massive-virtual-world-simulations.html</id>
+    <published>2016-08-17T00:00:00Z</published>
+    <updated>2016-08-17T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>YAML + Aeson Lenses</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-03-31-yaml-aeson-lenses.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-03-31-yaml-aeson-lenses.html</id>
+    <published>2016-03-31T00:00:00Z</published>
+    <updated>2016-03-31T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Haskell Game Server - Part 2</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-01-01-haskell-game-server-part-2.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-01-01-haskell-game-server-part-2.html</id>
+    <published>2016-01-01T00:00:00Z</published>
+    <updated>2016-01-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Happy Data Types & Polymorphism</title>
+    <link href="http://brian.uncannyworks.com/posts/2015-12-30-happy-data-types-and-polymorphism.html" />
+    <id>http://brian.uncannyworks.com/posts/2015-12-30-happy-data-types-and-polymorphism.html</id>
+    <published>2015-12-30T00:00:00Z</published>
+    <updated>2015-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Haskell Game Server - Part 1 Followup</title>
+    <link href="http://brian.uncannyworks.com/posts/2015-12-28-haskell-game-server-part-1-followup.html" />
+    <id>http://brian.uncannyworks.com/posts/2015-12-28-haskell-game-server-part-1-followup.html</id>
+    <published>2015-12-28T00:00:00Z</published>
+    <updated>2015-12-28T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Haskell Game Server - Part 1</title>
+    <link href="http://brian.uncannyworks.com/posts/2015-12-26-haskell-game-server-part-1.html" />
+    <id>http://brian.uncannyworks.com/posts/2015-12-26-haskell-game-server-part-1.html</id>
+    <published>2015-12-26T00:00:00Z</published>
+    <updated>2015-12-26T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+
+</feed>

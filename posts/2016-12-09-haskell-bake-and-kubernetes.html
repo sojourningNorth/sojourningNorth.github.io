@@ -6,6 +6,8 @@
         <title>brian.uncannyworks.com - Haskell Bake and Kubernetes</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
         <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
+        <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
         <script src="../js/highlight.pack.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
@@ -42,7 +44,7 @@
 <h2 id="background">Background</h2>
 <p>I work at a relatively large 150 employee Japanese social game company as the Lead Infrastructure Engineer on one of their various game projects. My primary duties include building server infrastructure, automating all the things, helping the server programming team out so they can focus on their jobs and not worry about the rest, and handling things if it all goes south. (DevOps, SRE, etc.)</p>
 <h2 id="discussion">Discussion</h2>
-<p>We have a small Kubernetes cluster which I run in order for the client team to be able to test their changes against the stable staging server build and the ever changing development build. Since these server instances see quite a bit of idle time I’ve decided to utilize their extra resources for other things my team needs, such as a build server. I wanted to avoid using memory hungry CI/CDs like Jenkins or Bamboo, and after having recently stumbled across as Haskell CI project called Bake decided to give it a shot.</p>
+<p>We have a small Kubernetes cluster which I run in order for the client team to be able to test their changes against the stable staging server build and the ever changing development build. Since these server instances see quite a bit of idle time I’ve decided to utilize their extra resources for other things my team needs, such as a build server. I wanted to avoid using memory hungry CI/CDs like Jenkins or Bamboo, and after having recently stumbled across a Haskell CI project called Bake decided to give it a shot.</p>
 <p>This post describes how I have leveraged <a href="https://github.com/ndmitchell/bake">Bake</a> and the power of Kubernetes to create an easily scalable build system which does automated testing (and eventually docker builds and deploys) for my server team. One of the exciting things about this setup is that it becomes relatively trivial to create build servers tuned towards what your project needs. In my case our server team uses Python’s Django which does integration tests against the database. Utilizing Kubernetes <em>pods</em>, I was able to link a MySQL container along with a Bake client container inside the same <em>pod</em> to use for locally ran integration tests.</p>
 <p>Note: This post is fairly code heavy and doesn’t go into deep philosophical reasons on why I made various decisions. It is meant it be more of a guide to help others bootstrap their own Bake build + K8S cluster.</p>
 <h2 id="haskell">Haskell</h2>
@@ -454,7 +456,7 @@ spec:
       imagePullSecrets:
         - name: us-west-2-ecr-registry
 </code></pre>
-<p>This services creates and maintains 4 build clients. As your commit volume and test time increases you can simply use kubectl commands to this scale out and keep your developers happy.</p>
+<p>This service creates and maintains 4 build clients. As your commit volume and test time increases you can simply use kubectl commands to scale out and keep your developers happy.</p>
 <h3 id="ingress">Ingress</h3>
 <p>The next piece of the puzzle is allowing outside world access to our build cluster. There’s numerous ways to handle this, I’ve chosen to use an Ingress and expose it behind a LoadBalancer.</p>
 <p>First we need an <em>ingress controller</em> and a default backend for it. The following snippets are available via the Kubernetes contrib GitHub repo.</p>
