@@ -17,11 +17,59 @@
     <dc:creator>Brian Jones</dc:creator>
 </item>
 <item>
+    <title>Unreal Engine 4 - Roguelike</title>
+    <link>http://brian.uncannyworks.com/posts/2016-11-19-unreal-engine-roguelike.html</link>
+    <description><![CDATA[Post description]]></description>
+    <pubDate>Sat, 19 Nov 2016 00:00:00 UT</pubDate>
+    <guid>http://brian.uncannyworks.com/posts/2016-11-19-unreal-engine-roguelike.html</guid>
+    <dc:creator>Brian Jones</dc:creator>
+</item>
+<item>
+    <title>Weekly Summary 3 - Ending 2016-11-13</title>
+    <link>http://brian.uncannyworks.com/posts/2016-11-13-weekly-summary.html</link>
+    <description><![CDATA[Post description]]></description>
+    <pubDate>Sun, 13 Nov 2016 00:00:00 UT</pubDate>
+    <guid>http://brian.uncannyworks.com/posts/2016-11-13-weekly-summary.html</guid>
+    <dc:creator>Brian Jones</dc:creator>
+</item>
+<item>
+    <title>Weekly Summary 2 - Ending 2016-11-06</title>
+    <link>http://brian.uncannyworks.com/posts/2016-11-06-weekly-summary.html</link>
+    <description><![CDATA[Post description]]></description>
+    <pubDate>Sun, 06 Nov 2016 00:00:00 UT</pubDate>
+    <guid>http://brian.uncannyworks.com/posts/2016-11-06-weekly-summary.html</guid>
+    <dc:creator>Brian Jones</dc:creator>
+</item>
+<item>
+    <title>Weekly Summary 1 - Ending 2016-10-30</title>
+    <link>http://brian.uncannyworks.com/posts/2016-10-30-weekly-summary.html</link>
+    <description><![CDATA[Post description]]></description>
+    <pubDate>Sun, 30 Oct 2016 00:00:00 UT</pubDate>
+    <guid>http://brian.uncannyworks.com/posts/2016-10-30-weekly-summary.html</guid>
+    <dc:creator>Brian Jones</dc:creator>
+</item>
+<item>
     <title>Massive Virtual World Simulations</title>
     <link>http://brian.uncannyworks.com/posts/2016-08-17-massive-virtual-world-simulations.html</link>
     <description><![CDATA[Post description]]></description>
     <pubDate>Wed, 17 Aug 2016 00:00:00 UT</pubDate>
     <guid>http://brian.uncannyworks.com/posts/2016-08-17-massive-virtual-world-simulations.html</guid>
+    <dc:creator>Brian Jones</dc:creator>
+</item>
+<item>
+    <title>What can you do in Armored Bits anyways?</title>
+    <link>http://brian.uncannyworks.com/posts/2016-08-16-what-can-you-do-in-armored-bits-anyways.html</link>
+    <description><![CDATA[Post description]]></description>
+    <pubDate>Tue, 16 Aug 2016 00:00:00 UT</pubDate>
+    <guid>http://brian.uncannyworks.com/posts/2016-08-16-what-can-you-do-in-armored-bits-anyways.html</guid>
+    <dc:creator>Brian Jones</dc:creator>
+</item>
+<item>
+    <title>Doing Indie Game Dev Wrong</title>
+    <link>http://brian.uncannyworks.com/posts/2016-08-16-doing-indie-game-dev-wrong.html</link>
+    <description><![CDATA[Post description]]></description>
+    <pubDate>Tue, 16 Aug 2016 00:00:00 UT</pubDate>
+    <guid>http://brian.uncannyworks.com/posts/2016-08-16-doing-indie-game-dev-wrong.html</guid>
     <dc:creator>Brian Jones</dc:creator>
 </item>
 <item>
@@ -38,30 +86,6 @@
     <description><![CDATA[Post description]]></description>
     <pubDate>Fri, 01 Jan 2016 00:00:00 UT</pubDate>
     <guid>http://brian.uncannyworks.com/posts/2016-01-01-haskell-game-server-part-2.html</guid>
-    <dc:creator>Brian Jones</dc:creator>
-</item>
-<item>
-    <title>Happy Data Types & Polymorphism</title>
-    <link>http://brian.uncannyworks.com/posts/2015-12-30-happy-data-types-and-polymorphism.html</link>
-    <description><![CDATA[Post description]]></description>
-    <pubDate>Wed, 30 Dec 2015 00:00:00 UT</pubDate>
-    <guid>http://brian.uncannyworks.com/posts/2015-12-30-happy-data-types-and-polymorphism.html</guid>
-    <dc:creator>Brian Jones</dc:creator>
-</item>
-<item>
-    <title>Haskell Game Server - Part 1 Followup</title>
-    <link>http://brian.uncannyworks.com/posts/2015-12-28-haskell-game-server-part-1-followup.html</link>
-    <description><![CDATA[Post description]]></description>
-    <pubDate>Mon, 28 Dec 2015 00:00:00 UT</pubDate>
-    <guid>http://brian.uncannyworks.com/posts/2015-12-28-haskell-game-server-part-1-followup.html</guid>
-    <dc:creator>Brian Jones</dc:creator>
-</item>
-<item>
-    <title>Haskell Game Server - Part 1</title>
-    <link>http://brian.uncannyworks.com/posts/2015-12-26-haskell-game-server-part-1.html</link>
-    <description><![CDATA[Post description]]></description>
-    <pubDate>Sat, 26 Dec 2015 00:00:00 UT</pubDate>
-    <guid>http://brian.uncannyworks.com/posts/2015-12-26-haskell-game-server-part-1.html</guid>
     <dc:creator>Brian Jones</dc:creator>
 </item>
 

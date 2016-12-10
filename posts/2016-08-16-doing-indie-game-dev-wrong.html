@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>brian.uncannyworks.com - Doing Indie Game Dev Wrong</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
+        <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
+        <script src="../js/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1531113-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+      </script>
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="../">brian.uncannyworks.com</a>
+            </div>
+            <div id="navigation">
+                <a href="../pages/resume.html">Game Resume</a>
+                <a href="../archive.html">Archive</a>
+                <a href="https://twitter.com/mojobojo">@mojobojo</a>
+                <a href="https://github.com/boj">boj@GitHub</a>
+            </div>
+        </div>
+
+        <div id="content">
+            <h1>Doing Indie Game Dev Wrong</h1>
+<div class="info">
+    Posted on August 16, 2016
+    
+        by Brian Jones
+    
+</div>
+
+<p>Ok, admittedly the title is a bit misleading, but hear me out. We absolutely love what we are doing and are having a blast. However, if you truly want to be a successful indie game dev you probably shouldn’t do 99% of the things that we are doing.</p>
+<p>The goal of this post is to describe the challenges we face while making an incredibly non-traditional game, as well as give a feel for all the parts and pieces which are involved with our vision of the still far off release of <a href="https://armoredbits.com">Armored Bits</a>.</p>
+<h2 id="armored-bits-isnt-even-a-traditional-game">Armored Bits Isn’t Even a Traditional Game?!</h2>
+<p>That’s right. If the game doesn’t have player control can you really call it a game? If your target audience is programmers (or wannabe programmers) is it truly a game? If you spend more time coding to make your mech work than actually watch your mech fight is it really a game? There’s a couple great examples of games-for-programmers out there by some talented game devs, but usually the programming mechanics only work within the context of the game itself as opposed to being an independent system.</p>
+<h2 id="picking-a-new-language-is-a-terrible-idea">Picking a New Language is a Terrible Idea</h2>
+<p>Awhile back we discussed <a href="../posts/2015-09-27-choosing-a-backend-language.html">choosing a backend language</a>. I have fallen in love with Haskell. I absolutely love what you can do with the language, warts and all. I will never pick the language with the highest learning curve in the world to start a new project ever again. On the other hand, maybe now that I’ve found The Perfect Language™ I’ll never have to worry about that particular case.</p>
+<p>We could have had a working prototype written in some other language we were more familiar with within months, however, in hindsight I don’t really regret the decision to go with Haskell at all. For most of the reasons people typically bring up it’s been a pleasure to use. Incredibly easy refactoring, strong type system, very high level abstractions which result in less lines of code, easy to reason about, performant for soft realtime systems, etc.</p>
+<p>I’ve also added a nice little bullet point to my resume, although not one that would ever help me get a game job. Continuing the trend of going against the grain I suppose.</p>
+<h2 id="how-many-components-does-it-have-again">How Many Components Does it Have Again?!</h2>
+<p>Let me list off all the things Chris and I typically screw with each month.</p>
+<ol style="list-style-type: decimal">
+<li>Core Haskell game server.</li>
+<li>Javascript game SDK.</li>
+<li>Unity3d visual client.</li>
+<li>Elixir.
+<ol style="list-style-type: decimal">
+<li>User management service.</li>
+<li>Code management service.</li>
+<li>Login management service.</li>
+<li>Match making service.</li>
+<li>Game server + user code “slug” orchestration service.</li>
+</ol></li>
+<li>Server infrastructure (web, services, db, game, monitoring, etc.)</li>
+<li>Project management (bitbucket + JIRA).</li>
+<li>Promotional websites.</li>
+<li>Social media.</li>
+</ol>
+<p>A typical indie dev game usually doesn’t have points 1, 2, 4, or 5 at all! What the hell were we thinking?</p>
+<p>Still, since our primary focus is on programmable gaming we can get away with using placeholder art for the most part. The drawback of course is that we don’t really have any bling to show off to our audience.</p>
+<h2 id="do-you-have-day-jobs">Do You Have Day Jobs?</h2>
+<p>Not just day jobs, but I personally have a little nearly 2 year old daughter who is a full time job herself. AB dev time happens in the wee hours of the night or when time permits on weekends. This admittedly does not fall under the “you are doing it wrong” category, but it does impact the speed at which we can bring this project to release.</p>
+<p>What is truly scary to ponder is whether all of this ends up being a waste of time or not. I truly hope with all my heart that we have found a niche which appeals to a decent number of people.</p>
+<h2 id="for-the-sake-of-completeness">For the Sake of Completeness</h2>
+<p>I suppose a post about a game wouldn’t be complete without <em>some</em> kind of screenshot or video, so here is some (scripted!) footage of our mech assets in action for a promotion we plan on doing soon. Hopefully the actual player AI on player AI action looks at least this good.</p>
+<iframe width="1024" height="600" src="https://www.youtube.com/embed/wUnrhhkKIjc" frameborder="0" allowfullscreen>
+</iframe>
+<p>Keep your eyes out for more information as we continue to move forward. I’m just a few more nights of hard work away from applying our alpha1 (internal test) tag to the core game server master branch, so we’re getting there!</p>
+
+<div id="disqus_thread"></div>
+<script>
+this.page.url = "/posts/2016-08-16-doing-indie-game-dev-wrong.html";
+this.page.identifier = "Doing Indie Game Dev Wrong";
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//mojobojo.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+        </div>
+        <div id="footer">
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </div>
+    </body>
+</html>

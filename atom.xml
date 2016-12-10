@@ -18,11 +18,59 @@
     <summary type="html"><![CDATA[Post description]]></summary>
 </entry>
 <entry>
+    <title>Unreal Engine 4 - Roguelike</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-11-19-unreal-engine-roguelike.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-11-19-unreal-engine-roguelike.html</id>
+    <published>2016-11-19T00:00:00Z</published>
+    <updated>2016-11-19T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Weekly Summary 3 - Ending 2016-11-13</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-11-13-weekly-summary.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-11-13-weekly-summary.html</id>
+    <published>2016-11-13T00:00:00Z</published>
+    <updated>2016-11-13T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Weekly Summary 2 - Ending 2016-11-06</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-11-06-weekly-summary.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-11-06-weekly-summary.html</id>
+    <published>2016-11-06T00:00:00Z</published>
+    <updated>2016-11-06T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Weekly Summary 1 - Ending 2016-10-30</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-10-30-weekly-summary.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-10-30-weekly-summary.html</id>
+    <published>2016-10-30T00:00:00Z</published>
+    <updated>2016-10-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
     <title>Massive Virtual World Simulations</title>
     <link href="http://brian.uncannyworks.com/posts/2016-08-17-massive-virtual-world-simulations.html" />
     <id>http://brian.uncannyworks.com/posts/2016-08-17-massive-virtual-world-simulations.html</id>
     <published>2016-08-17T00:00:00Z</published>
     <updated>2016-08-17T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>What can you do in Armored Bits anyways?</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-08-16-what-can-you-do-in-armored-bits-anyways.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-08-16-what-can-you-do-in-armored-bits-anyways.html</id>
+    <published>2016-08-16T00:00:00Z</published>
+    <updated>2016-08-16T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Post description]]></summary>
+</entry>
+<entry>
+    <title>Doing Indie Game Dev Wrong</title>
+    <link href="http://brian.uncannyworks.com/posts/2016-08-16-doing-indie-game-dev-wrong.html" />
+    <id>http://brian.uncannyworks.com/posts/2016-08-16-doing-indie-game-dev-wrong.html</id>
+    <published>2016-08-16T00:00:00Z</published>
+    <updated>2016-08-16T00:00:00Z</updated>
     <summary type="html"><![CDATA[Post description]]></summary>
 </entry>
 <entry>
@@ -39,30 +87,6 @@
     <id>http://brian.uncannyworks.com/posts/2016-01-01-haskell-game-server-part-2.html</id>
     <published>2016-01-01T00:00:00Z</published>
     <updated>2016-01-01T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Post description]]></summary>
-</entry>
-<entry>
-    <title>Happy Data Types & Polymorphism</title>
-    <link href="http://brian.uncannyworks.com/posts/2015-12-30-happy-data-types-and-polymorphism.html" />
-    <id>http://brian.uncannyworks.com/posts/2015-12-30-happy-data-types-and-polymorphism.html</id>
-    <published>2015-12-30T00:00:00Z</published>
-    <updated>2015-12-30T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Post description]]></summary>
-</entry>
-<entry>
-    <title>Haskell Game Server - Part 1 Followup</title>
-    <link href="http://brian.uncannyworks.com/posts/2015-12-28-haskell-game-server-part-1-followup.html" />
-    <id>http://brian.uncannyworks.com/posts/2015-12-28-haskell-game-server-part-1-followup.html</id>
-    <published>2015-12-28T00:00:00Z</published>
-    <updated>2015-12-28T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Post description]]></summary>
-</entry>
-<entry>
-    <title>Haskell Game Server - Part 1</title>
-    <link href="http://brian.uncannyworks.com/posts/2015-12-26-haskell-game-server-part-1.html" />
-    <id>http://brian.uncannyworks.com/posts/2015-12-26-haskell-game-server-part-1.html</id>
-    <published>2015-12-26T00:00:00Z</published>
-    <updated>2015-12-26T00:00:00Z</updated>
     <summary type="html"><![CDATA[Post description]]></summary>
 </entry>
 

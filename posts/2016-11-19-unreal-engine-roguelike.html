@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>brian.uncannyworks.com - Unreal Engine 4 - Roguelike</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
+        <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
+        <script src="../js/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1531113-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+      </script>
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="../">brian.uncannyworks.com</a>
+            </div>
+            <div id="navigation">
+                <a href="../pages/resume.html">Game Resume</a>
+                <a href="../archive.html">Archive</a>
+                <a href="https://twitter.com/mojobojo">@mojobojo</a>
+                <a href="https://github.com/boj">boj@GitHub</a>
+            </div>
+        </div>
+
+        <div id="content">
+            <h1>Unreal Engine 4 - Roguelike</h1>
+<div class="info">
+    Posted on November 19, 2016
+    
+        by Brian Jones
+    
+</div>
+
+<p>I’ve been working on <a href="https://armoredbits.com/">Armored Bits</a> for about a year and half now and it’s coming along quite well. After this latest server refactor the game should be programmable (playable) before the year is out. My Haskell programming skills have skyrocketed, and all is well with the world. Still, eating vanilla ice cream and never mixing it up with strawberry or chocolate on occasion can get a bit dull.</p>
+<p>With that in mind, I’ve started a small side project in an attempt to fulfill two goals. 1) Learn Unreal Engine 4, and 2) build a roguelike of sorts. This blog post is hopefully the beginning of documenting that process.</p>
+<h2 id="the-gimmick">The Gimmick</h2>
+<p>I want a roguelike I can play in 5 minutes. It occurred to me that I could keep the turn based mechanics of a standard roguelike and mix it up by setting a global realtime 5 minute timer within which the player has to beat the quest objective for that randomly generated run. Could be fun? I hope? The goal is to build a game where the player has to balance efficient hero building and leveling while trying to reach the end goal in a reasonable amount of time, hopefully giving a fun sense of urgency, but not a panic induced rush to the end.</p>
+<p>(I’m not 100% sure about 5 minutes, that’s just the number that has been in my head.)</p>
+<h2 id="assets">Assets</h2>
+<p>First of all I wanted something that looked visually pleasing. After hunting around <a href="http://opengameart.org/">Open Game Art</a> a bit, which is full of a lot of incredible art with various licenses, I eventually went off and bought <a href="http://oryxdesignlab.com/product-sprites/16-bit-fantasy-sprite-set">these beautiful tiles</a> from Oryx for $35 USD.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><img src="../images/fmrl_01.png" /></td>
+<td><img src="../images/fmrl_02.png" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ue4-sprites">UE4 Sprites</h2>
+<p>Importing and building sprites in UE4 is actually pretty straightforward and painless. You simply import all of the images which automatically get turned into textures, then you select all of those and turn them into sprites. Thankfully the Oryx pack had both sprite sheets and single cut versions of each tile, the latter of which turned out necessary to have.</p>
+<h3 id="generating-rooms">Generating Rooms</h3>
+<p>In the following screenshot I’ve built a layered Tile Set using the huge world sprite sheet. What this allows me to do is randomly generate dungeons using one of the 23 different room tile sets and get different visual results by simply passing in a different layer id.</p>
+<div class="figure">
+<img src="../images/2016-11-19_01.png" />
+
+</div>
+<p>The Blueprint to kick off randomly generating a dungeon:</p>
+<div class="figure">
+<img src="../images/2016-11-19_03.png" />
+
+</div>
+<p>Note that it’s very rough right now and is simply dumb logic which builds a small single test room. Near future goals are to generate a handful of rooms, spread them out, and then tunnel them together, add doors, etc.</p>
+<p>This next Blueprint is how I pull the right assets together. It builds a new Tile Set for the room, and then another function builds an equally sized Tile Set and places ambient sprites like cobwebs and stacks it over the room Tile Set. The sub-functions in here are simply accessors which pull the correct sprite out of the Room Tile Set mentioned earlier by the layer id.</p>
+<div class="figure">
+<img src="../images/2016-11-19_04.png" />
+
+</div>
+<h3 id="animating-creatures">Animating Creatures</h3>
+<p>Building animations (Flipbooks) or Tile Sets from a lot of single sprites can be very tedious. I really wish I could have just selected the 2 frame animations out of a sprite sheet, but I ended up having to use the sliced sprites to manually build the 200 creature animations. Needless to say this took a few hours to complete.</p>
+<div class="figure">
+<img src="../images/2016-11-19_02.png" />
+
+</div>
+<h3 id="random-items">Random Items</h3>
+<p>Rather than optimally pull items from a single sprite sheet -&gt; Tile Set, which I originally started doing, it was just way too tedious to build. I opted to import every item as a single sprite instead. Honestly, I don’t see the draw call count of this game going over 100 on a very busy screen, if that, so I opted to not needlessly spend a lot of time on pre-optimization.</p>
+<div class="figure">
+<img src="../images/2016-11-19_05.png" />
+
+</div>
+<p>I still need to consider how I am even going to utilize items in the game. More than likely it’ll be super basic RPG mechanics everyone knows and loves (I’m kind of in the hate category, but that’s a story for another day). My current train of thought is to simply use the factory I’ve built to get a random item, and then assign basic properties to it relevant to the level/area it was acquired.</p>
+<h3 id="ui">UI</h3>
+<p>Finally one needs a UI to actually navigate through the game.</p>
+<div class="figure">
+<img src="../images/2016-11-19_06.png" />
+
+</div>
+<p>I have some nice Init Level -&gt; Hero Select Level -&gt; Dungeon Level flow going so far. Compared to Unity3d, which I’ve been using on and off for about 5 years now, the UI stuff in UE4 has actually been quite a breeze. Interacting with everything via Blueprints has really been a good experience so far.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Not bad for 2 weekends and a few nights of work, eh? There’s still a long way to go before I have something actually playable to show off, but I’m fairly satisfied with how far I’ve come in such a short time. My goal is to simply keep hammering away at it every day, whether it’s to add a couple more sprites in, or quickly knock out a new Blueprint script to do some trivial task.</p>
+<p>Now if the damn UE4 editor would stop crashing 20 times per day (I am not even joking), and I can figure out <a href="https://answers.unrealengine.com/questions/525369/blueprint-search-freeze.html">this issue I have</a> about selecting Blueprint classes. Without a fix I have no way to build a GameInstance Blueprint to handle persistent data between levels, like which hero was selected, etc, nor can I add a GameSave instance to record scores and stats. Worst case scenario I may have to setup Windows and see if things work there.</p>
+
+<div id="disqus_thread"></div>
+<script>
+this.page.url = "/posts/2016-11-19-unreal-engine-roguelike.html";
+this.page.identifier = "Unreal Engine 4 - Roguelike";
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//mojobojo.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+        </div>
+        <div id="footer">
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </div>
+    </body>
+</html>
