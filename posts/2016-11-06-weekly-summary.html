@@ -5,11 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>brian.uncannyworks.com - Weekly Summary 2 - Ending 2016-11-06</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
-        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
         <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
         <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
-        <script src="../js/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-1531113-1']);
@@ -45,35 +43,35 @@
 
 <p>This week was all over the board. Thursday was a national holiday in Japan, so I took Friday off to give myself a 4 day weekend. My time was divided between family responsibilities and juggling projects. I actually burned myself out so with the exception of this blog post I ended up just relaxing with my daughter all day Sunday.</p>
 <h2 id="time-breakdown">Time Breakdown</h2>
-<pre><code>#+BEGIN: clocktable :maxlevel 4 :block thisweek :scope &lt;various&gt;
-#+CAPTION: Clock summary at [2016-11-06 Sun 20:18], for week 2016-W44.
-| File             | Headline                      | Time       |       |       |      |
-|------------------|-------------------------------|------------|-------|-------|------|
-|                  | ALL *Total time*              | *1d 11:26* |       |       |      |
-|------------------|-------------------------------|------------|-------|-------|------|
-| UncannyWorks.org | *File time*                   | *11:01*    |       |       |      |
-|                  | Uncanny Works                 | 11:01      |       |       |      |
-|                  | \_  Project Management        |            | 11:01 |       |      |
-|                  | \_    Web Site                |            |       |  0:26 |      |
-|                  | \_      Recurring             |            |       |       | 0:26 |
-|                  | \_    DS: UE4 Experiment      |            |       | 10:35 |      |
-|------------------|-------------------------------|------------|-------|-------|------|
-| HackSlash.org    | *File time*                   | *0:00*     |       |       |      |
-|------------------|-------------------------------|------------|-------|-------|------|
-| ArmoredBits.org  | *File time*                   | *6:31*     |       |       |      |
-|                  | Armored Bits                  | 6:31       |       |       |      |
-|                  | \_  Project Management        |            |  6:31 |       |      |
-|                  | \_    Hack Slash Refactor     |            |       |  6:31 |      |
-|------------------|-------------------------------|------------|-------|-------|------|
-| Prismatica.org   | *File time*                   | *0:00*     |       |       |      |
-|------------------|-------------------------------|------------|-------|-------|------|
-| WebExp.org       | *File time*                   | *17:54*    |       |       |      |
-|                  | Web Exp                       | 17:54      |       |       |      |
-|                  | \_  Project Management        |            | 17:54 |       |      |
-|                  | \_    One Shots               |            |       |  0:30 |      |
-|                  | \_      Haskell and Git Setup |            |       |       | 0:30 |
-|                  | \_    Development             |            |       | 17:24 |      |
-#+END:</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#+BEGIN: clocktable :maxlevel 4 :block thisweek :scope &lt;various&gt;</span>
+<span class="co">#+CAPTION: Clock summary at [2016-11-06 Sun 20:18], for week 2016-W44.</span>
+<span class="kw">|</span> <span class="kw">File</span>             <span class="kw">|</span> <span class="kw">Headline</span>                      <span class="kw">|</span> <span class="kw">Time</span>       <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|-------------------------------|------------|-------|-------|------|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">ALL</span> *Total time*              <span class="kw">|</span> <span class="kw">*1d</span> 11:26* <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|-------------------------------|------------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">UncannyWorks.org</span> <span class="kw">|</span> <span class="kw">*File</span> time*                   <span class="kw">|</span> <span class="kw">*11</span>:01*    <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Uncanny</span> Works                 <span class="kw">|</span> <span class="kw">11</span>:01      <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management        <span class="kw">|</span>            <span class="kw">|</span> <span class="kw">11</span>:01 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    Web Site                <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span>  <span class="kw">0</span>:26 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>      Recurring             <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span> <span class="kw">0</span>:26 <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    DS: UE4 Experiment      <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span> <span class="kw">10</span>:35 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|-------------------------------|------------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">HackSlash.org</span>    <span class="kw">|</span> <span class="kw">*File</span> time*                   <span class="kw">|</span> <span class="kw">*0</span>:00*     <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|-------------------------------|------------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">ArmoredBits.org</span>  <span class="kw">|</span> <span class="kw">*File</span> time*                   <span class="kw">|</span> <span class="kw">*6</span>:31*     <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Armored</span> Bits                  <span class="kw">|</span> <span class="kw">6</span>:31       <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management        <span class="kw">|</span>            <span class="kw">|</span>  <span class="kw">6</span>:31 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    Hack Slash Refactor     <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span>  <span class="kw">6</span>:31 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|-------------------------------|------------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">Prismatica.org</span>   <span class="kw">|</span> <span class="kw">*File</span> time*                   <span class="kw">|</span> <span class="kw">*0</span>:00*     <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|-------------------------------|------------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">WebExp.org</span>       <span class="kw">|</span> <span class="kw">*File</span> time*                   <span class="kw">|</span> <span class="kw">*17</span>:54*    <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Web</span> Exp                       <span class="kw">|</span> <span class="kw">17</span>:54      <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management        <span class="kw">|</span>            <span class="kw">|</span> <span class="kw">17</span>:54 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    One Shots               <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span>  <span class="kw">0</span>:30 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>      Haskell and Git Setup <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span> <span class="kw">0</span>:30 <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    Development             <span class="kw">|</span>            <span class="kw">|</span>       <span class="kw">|</span> <span class="kw">17</span>:24 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="co">#+END:</span></code></pre></div>
 <h3 id="uncanny-works">Uncanny Works</h3>
 <p>I spent a little over 10 hours importing assets from our originally planned Dungeon Slammers project (never released) and attempted to revive it inside Unreal Engine 4. I’ve tinkered with UE4 in the past so was able to make a goodly amount of progress, but there’s quite a bit of work to take the game all the way to the final product we envisioned. I’m hanging this up for now, but it was a good experiment in wrapping my head around the engine more.</p>
 <h3 id="hack-slash">Hack Slash</h3>

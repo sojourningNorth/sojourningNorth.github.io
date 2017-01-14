@@ -5,11 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>brian.uncannyworks.com - Happy Data Types & Polymorphism</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
-        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
         <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
         <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
-        <script src="../js/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-1531113-1']);
@@ -42,30 +40,26 @@
 </div>
 
 <p>I am ridiculously proud of this little bit of code:</p>
-<pre><code class="haskell">
-data Range a = Range a a
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Range</span> a <span class="fu">=</span> <span class="dt">Range</span> a a
 
-between :: (Num a, Eq a, Ord a) => a -> Range a -> Bool
-between a (Range b c) = a > b && a < c
+<span class="ot">between ::</span> (<span class="dt">Num</span> a, <span class="dt">Eq</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Range</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+between a (<span class="dt">Range</span> b c) <span class="fu">=</span> a <span class="fu">&gt;</span> b <span class="fu">&amp;&amp;</span> a <span class="fu">&lt;</span> c
 
-betweenl :: (Num a, Eq a, Ord a) => a -> Range a -> Bool
-betweenl a (Range b c) = a >= b && a < c
+<span class="ot">betweenl ::</span> (<span class="dt">Num</span> a, <span class="dt">Eq</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Range</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+betweenl a (<span class="dt">Range</span> b c) <span class="fu">=</span> a <span class="fu">&gt;=</span> b <span class="fu">&amp;&amp;</span> a <span class="fu">&lt;</span> c
 
-betweenr :: (Num a, Eq a, Ord a) => a -> Range a -> Bool
-betweenr a (Range b c) = a > b && a <= c
+<span class="ot">betweenr ::</span> (<span class="dt">Num</span> a, <span class="dt">Eq</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Range</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+betweenr a (<span class="dt">Range</span> b c) <span class="fu">=</span> a <span class="fu">&gt;</span> b <span class="fu">&amp;&amp;</span> a <span class="fu">&lt;=</span> c
 
-betweenBoth :: (Num a, Eq a, Ord a) => a -> Range a -> Bool
-betweenBoth a (Range b c) = a >= b && a <= c
-</code></pre>
+<span class="ot">betweenBoth ::</span> (<span class="dt">Num</span> a, <span class="dt">Eq</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Range</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+betweenBoth a (<span class="dt">Range</span> b c) <span class="fu">=</span> a <span class="fu">&gt;=</span> b <span class="fu">&amp;&amp;</span> a <span class="fu">&lt;=</span> c</code></pre></div>
 <p>Results in:</p>
-<pre><code class="haskell">
-27.0 `between`     Range 15.0 40.0 => True
-90   `between`     Range 15   40   => False
-15   `betweenl`    Range 15   40   => True
-40.0 `betweenr`    Range 15.0 40.0 => True
-0.0  `betweenBoth` Range  0.0  1.0 => True
-2.0  `between`     Range  0.0  1.0 => False
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fl">27.0</span> <span class="ot">`between`</span>     <span class="dt">Range</span> <span class="fl">15.0</span> <span class="fl">40.0</span> <span class="ot">=&gt;</span> <span class="dt">True</span>
+<span class="dv">90</span>   <span class="ot">`between`</span>     <span class="dt">Range</span> <span class="dv">15</span>   <span class="dv">40</span>   <span class="ot">=&gt;</span> <span class="dt">False</span>
+<span class="dv">15</span>   <span class="ot">`betweenl`</span>    <span class="dt">Range</span> <span class="dv">15</span>   <span class="dv">40</span>   <span class="ot">=&gt;</span> <span class="dt">True</span>
+<span class="fl">40.0</span> <span class="ot">`betweenr`</span>    <span class="dt">Range</span> <span class="fl">15.0</span> <span class="fl">40.0</span> <span class="ot">=&gt;</span> <span class="dt">True</span>
+<span class="fl">0.0</span>  <span class="ot">`betweenBoth`</span> <span class="dt">Range</span>  <span class="fl">0.0</span>  <span class="fl">1.0</span> <span class="ot">=&gt;</span> <span class="dt">True</span>
+<span class="fl">2.0</span>  <span class="ot">`between`</span>     <span class="dt">Range</span>  <span class="fl">0.0</span>  <span class="fl">1.0</span> <span class="ot">=&gt;</span> <span class="dt">False</span></code></pre></div>
 
 <div id="disqus_thread"></div>
 <script>

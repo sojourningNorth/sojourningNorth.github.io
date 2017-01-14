@@ -5,11 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>brian.uncannyworks.com - YAML + Aeson Lenses</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
-        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
         <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
         <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
-        <script src="../js/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-1531113-1']);
@@ -51,232 +49,222 @@
 <p>I was refactoring some <a href="https://armoredbits.com/">Armored Bits</a> code over the last couple of days to pull some hard coded test values out into the more sane yaml configuration file I’ve started using recently. As I begun adding more fields to the yaml I realized that this was not going to scale well with regards to my time when fleshing out the corresponding Haskell data structures.</p>
 <h2 id="in-the-beginning">In The Beginning</h2>
 <p>The initial yaml wasn’t too terribly large.</p>
-<pre><code class="yaml">
-server:
-  ports:
-    internal: 4000
-    external: 5000
-  connections:
-    internal: 10
-    external: 10
-  maxPlayers: 10
-game:
-  deltaTime: 0.016
-  force:
-    wait: 10
-    configure: 5
-    start: 5
-    end: 300
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">server:</span>
+  <span class="fu">ports:</span>
+    <span class="fu">internal:</span> 4000
+    <span class="fu">external:</span> 5000
+  <span class="fu">connections:</span>
+    <span class="fu">internal:</span> 10
+    <span class="fu">external:</span> 10
+  <span class="fu">maxPlayers:</span> 10
+<span class="fu">game:</span>
+  <span class="fu">deltaTime:</span> 0.016
+  <span class="fu">force:</span>
+    <span class="fu">wait:</span> 10
+    <span class="fu">configure:</span> 5
+    <span class="fu">start:</span> 5
+    <span class="fu">end:</span> 300</code></pre></div>
 <p>The Haskell code to load this was a tad verbose but still somewhat manageable. I originally set it up to use the lens library so that I could easily drill into the structure with the original yaml field names, therefore manually defined all of the FromJSON instances instead of simply using Generics.</p>
-<pre><code class="haskell">
--- File: ServerConfig.hs
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- File: ServerConfig.hs</span>
 
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
+<span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
+<span class="ot">{-# LANGUAGE TemplateHaskell   #-}</span>
 
-module Data.ServerConfig where
+<span class="kw">module</span> <span class="dt">Data.ServerConfig</span> <span class="kw">where</span>
 
-import           Control.Lens
-import           Data.Yaml
+<span class="kw">import           </span><span class="dt">Control.Lens</span>
+<span class="kw">import           </span><span class="dt">Data.Yaml</span>
 
-data ConfigServerPorts
-  = ConfigServerPorts {
-      _portsInternal :: Int
-    , _portsExternal :: Int
+<span class="kw">data</span> <span class="dt">ConfigServerPorts</span>
+  <span class="fu">=</span> <span class="dt">ConfigServerPorts</span> {
+      _<span class="ot">portsInternal ::</span> <span class="dt">Int</span>
+    , _<span class="ot">portsExternal ::</span> <span class="dt">Int</span>
     }
 
-makeLenses ''ConfigServerPorts
+makeLenses <span class="ch">''</span><span class="dt">ConfigServerPorts</span>
 
-data ConfigServerConnections
-  = ConfigServerConnections {
-      _connectionsInternal :: Int
-    , _connectionsExternal :: Int
+<span class="kw">data</span> <span class="dt">ConfigServerConnections</span>
+  <span class="fu">=</span> <span class="dt">ConfigServerConnections</span> {
+      _<span class="ot">connectionsInternal ::</span> <span class="dt">Int</span>
+    , _<span class="ot">connectionsExternal ::</span> <span class="dt">Int</span>
     }
 
-makeLenses ''ConfigServerConnections
+makeLenses <span class="ch">''</span><span class="dt">ConfigServerConnections</span>
 
-data ConfigServer
-  = ConfigServer {
-      _serverPorts       :: ConfigServerPorts
-    , _serverConnections :: ConfigServerConnections
-    , _serverMaxPlayers  :: Int
+<span class="kw">data</span> <span class="dt">ConfigServer</span>
+  <span class="fu">=</span> <span class="dt">ConfigServer</span> {
+      _<span class="ot">serverPorts       ::</span> <span class="dt">ConfigServerPorts</span>
+    , _<span class="ot">serverConnections ::</span> <span class="dt">ConfigServerConnections</span>
+    , _<span class="ot">serverMaxPlayers  ::</span> <span class="dt">Int</span>
     }
 
-makeLenses ''ConfigServer
+makeLenses <span class="ch">''</span><span class="dt">ConfigServer</span>
 
-data ConfigGameForce
-  = ConfigGameForce {
-      _forceWait      :: Int
-    , _forceConfigure :: Int
-    , _forceStart     :: Int
-    , _forceEnd       :: Int
+<span class="kw">data</span> <span class="dt">ConfigGameForce</span>
+  <span class="fu">=</span> <span class="dt">ConfigGameForce</span> {
+      _<span class="ot">forceWait      ::</span> <span class="dt">Int</span>
+    , _<span class="ot">forceConfigure ::</span> <span class="dt">Int</span>
+    , _<span class="ot">forceStart     ::</span> <span class="dt">Int</span>
+    , _<span class="ot">forceEnd       ::</span> <span class="dt">Int</span>
     }
 
-makeLenses ''ConfigGameForce
+makeLenses <span class="ch">''</span><span class="dt">ConfigGameForce</span>
 
-data ConfigGame
-  = ConfigGame {
-      _gameDeltaTime :: Float
-    , _gameForce     :: ConfigGameForce
+<span class="kw">data</span> <span class="dt">ConfigGame</span>
+  <span class="fu">=</span> <span class="dt">ConfigGame</span> {
+      _<span class="ot">gameDeltaTime ::</span> <span class="dt">Float</span>
+    , _<span class="ot">gameForce     ::</span> <span class="dt">ConfigGameForce</span>
     }
 
-makeLenses ''ConfigGame
+makeLenses <span class="ch">''</span><span class="dt">ConfigGame</span>
 
-data Config
-  = Config {
-      _configServer :: ConfigServer
-    , _configGame   :: ConfigGame
+<span class="kw">data</span> <span class="dt">Config</span>
+  <span class="fu">=</span> <span class="dt">Config</span> {
+      _<span class="ot">configServer ::</span> <span class="dt">ConfigServer</span>
+    , _<span class="ot">configGame   ::</span> <span class="dt">ConfigGame</span>
     }
 
-makeLenses ''Config
+makeLenses <span class="ch">''</span><span class="dt">Config</span>
 
-instance FromJSON ConfigServerPorts where
-  parseJSON (Object v) = ConfigServerPorts
-                         <$> (v .: "internal")
-                         <*> (v .: "external")
-  parseJSON _ = error "Can't parse ConfigServerPorts from YAML/JSON"
+<span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">ConfigServerPorts</span> <span class="kw">where</span>
+  parseJSON (<span class="dt">Object</span> v) <span class="fu">=</span> <span class="dt">ConfigServerPorts</span>
+                         <span class="fu">&lt;$&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;internal&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;external&quot;</span>)
+  parseJSON _ <span class="fu">=</span> error <span class="st">&quot;Can't parse ConfigServerPorts from YAML/JSON&quot;</span>
 
-instance FromJSON ConfigServerConnections where
-  parseJSON (Object v) = ConfigServerConnections
-                         <$> (v .: "internal")
-                         <*> (v .: "external")
-  parseJSON _ = error "Can't parse ConfigServerConnections from YAML/JSON"
+<span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">ConfigServerConnections</span> <span class="kw">where</span>
+  parseJSON (<span class="dt">Object</span> v) <span class="fu">=</span> <span class="dt">ConfigServerConnections</span>
+                         <span class="fu">&lt;$&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;internal&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;external&quot;</span>)
+  parseJSON _ <span class="fu">=</span> error <span class="st">&quot;Can't parse ConfigServerConnections from YAML/JSON&quot;</span>
 
-instance FromJSON ConfigServer where
-  parseJSON (Object v) = ConfigServer
-                         <$> (v .: "ports")
-                         <*> (v .: "connections")
-                         <*> (v .: "maxPlayers")
-  parseJSON _ = error "Can't parse ConfigServer from YAML/JSON"
+<span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">ConfigServer</span> <span class="kw">where</span>
+  parseJSON (<span class="dt">Object</span> v) <span class="fu">=</span> <span class="dt">ConfigServer</span>
+                         <span class="fu">&lt;$&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;ports&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;connections&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;maxPlayers&quot;</span>)
+  parseJSON _ <span class="fu">=</span> error <span class="st">&quot;Can't parse ConfigServer from YAML/JSON&quot;</span>
 
-instance FromJSON ConfigGameForce where
-  parseJSON (Object v) = ConfigGameForce
-                         <$> (v .: "wait")
-                         <*> (v .: "configure")
-                         <*> (v .: "start")
-                         <*> (v .: "end")
-  parseJSON _ = error "Can't parse ConfigGameForce from YAML/JSON"
+<span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">ConfigGameForce</span> <span class="kw">where</span>
+  parseJSON (<span class="dt">Object</span> v) <span class="fu">=</span> <span class="dt">ConfigGameForce</span>
+                         <span class="fu">&lt;$&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;wait&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;configure&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;start&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;end&quot;</span>)
+  parseJSON _ <span class="fu">=</span> error <span class="st">&quot;Can't parse ConfigGameForce from YAML/JSON&quot;</span>
 
-instance FromJSON ConfigGame where
-  parseJSON (Object v) = ConfigGame
-                         <$> (v .: "deltaTime")
-                         <*> (v .: "force")
-  parseJSON _ = error "Can't parse ConfigGame from YAML/JSON"
+<span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">ConfigGame</span> <span class="kw">where</span>
+  parseJSON (<span class="dt">Object</span> v) <span class="fu">=</span> <span class="dt">ConfigGame</span>
+                         <span class="fu">&lt;$&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;deltaTime&quot;</span>)
+                         <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;force&quot;</span>)
+  parseJSON _ <span class="fu">=</span> error <span class="st">&quot;Can't parse ConfigGame from YAML/JSON&quot;</span>
 
-instance FromJSON Config where
-  parseJSON (Object v) =  Config
-                          <$> (v .: "server")
-                          <*> (v .: "game")
-  parseJSON _ = error "Can't parse Config from YAML/JSON"
-</code></pre>
+<span class="kw">instance</span> <span class="dt">FromJSON</span> <span class="dt">Config</span> <span class="kw">where</span>
+  parseJSON (<span class="dt">Object</span> v) <span class="fu">=</span>  <span class="dt">Config</span>
+                          <span class="fu">&lt;$&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;server&quot;</span>)
+                          <span class="fu">&lt;*&gt;</span> (v <span class="fu">.:</span> <span class="st">&quot;game&quot;</span>)
+  parseJSON _ <span class="fu">=</span> error <span class="st">&quot;Can't parse Config from YAML/JSON&quot;</span></code></pre></div>
 <h2 id="adding-more-fields-ughhh">Adding More Fields: Ughhh</h2>
 <p>Then things got a little out of hand. I added all of the fields we needed to experiment with various mech configurations:</p>
-<pre><code class="yaml">
-server:
-  ports:
-    internal: 4000
-    external: 5000
-  connections:
-    internal: 10
-    external: 10
-  maxPlayers: 10
-game:
-  deltaTime: 0.016
-  force:
-    wait: 10
-    configure: 5
-    start: 5
-    end: 300
-  defaultMech:
-    model: Mech Type A
-    capacitor: Capacitor Type A
-    gyro: Gyro Type A
-    reactor: Reactor Type A
-    torso:
-      model: Torso Type A
-      engine: Engine Type A
-      armor: Armor Type A
-      weapons:
-        - model: Weapon Type A
-          capacitor:
-          ammo: Projectile Type A
-      counterMeasures:
-        - model: Counter Measure Type A
-      actuator: Actuator Type A
-      storage:
-        ammo:
-          model: Projectile Type A
-          type: ballistic
-          round: basic
-          amount: 100
-    cockpit:
-      model: Cockpit Type A
-      computers:
-        - model: Computer Type A
-      communications:
-        - model: Communication Type A
-      counterMeasures:
-        - model: Counter Measure Type A
-      sensors:
-        - model: Sensor Type A
-      armor: Armor Type A
-    arms:
-      - model: Arm Type A
-        armor: Armor Type A
-        weapons:
-          - model: Weapon Type A
-            capacitor:
-            ammo: Projectile Type A
-        counterMeasures:
-          - model: Counter Measure Type A
-      - model: Arm Type A
-        armor: Armor Type A
-        weapons:
-          - model: Weapon Type A
-            capacitor:
-            ammo: Projectile Type A
-        counterMeasures:
-          - model: Counter Measure Type A
-    legs:
-      - model: Leg Type A
-        armor: Armor Type A
-      - model: Leg Type A
-        armor: Armor Type A
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">server:</span>
+  <span class="fu">ports:</span>
+    <span class="fu">internal:</span> 4000
+    <span class="fu">external:</span> 5000
+  <span class="fu">connections:</span>
+    <span class="fu">internal:</span> 10
+    <span class="fu">external:</span> 10
+  <span class="fu">maxPlayers:</span> 10
+<span class="fu">game:</span>
+  <span class="fu">deltaTime:</span> 0.016
+  <span class="fu">force:</span>
+    <span class="fu">wait:</span> 10
+    <span class="fu">configure:</span> 5
+    <span class="fu">start:</span> 5
+    <span class="fu">end:</span> 300
+  <span class="fu">defaultMech:</span>
+    <span class="fu">model:</span> Mech Type A
+    <span class="fu">capacitor:</span> Capacitor Type A
+    <span class="fu">gyro:</span> Gyro Type A
+    <span class="fu">reactor:</span> Reactor Type A
+    <span class="fu">torso:</span>
+      <span class="fu">model:</span> Torso Type A
+      <span class="fu">engine:</span> Engine Type A
+      <span class="fu">armor:</span> Armor Type A
+      <span class="fu">weapons:</span>
+        <span class="kw">-</span> <span class="fu">model:</span> Weapon Type A
+          <span class="fu">capacitor:</span>
+          <span class="fu">ammo:</span> Projectile Type A
+      <span class="fu">counterMeasures:</span>
+        <span class="kw">-</span> <span class="fu">model:</span> Counter Measure Type A
+      <span class="fu">actuator:</span> Actuator Type A
+      <span class="fu">storage:</span>
+        <span class="fu">ammo:</span>
+          <span class="fu">model:</span> Projectile Type A
+          <span class="fu">type:</span> ballistic
+          <span class="fu">round:</span> basic
+          <span class="fu">amount:</span> 100
+    <span class="fu">cockpit:</span>
+      <span class="fu">model:</span> Cockpit Type A
+      <span class="fu">computers:</span>
+        <span class="kw">-</span> <span class="fu">model:</span> Computer Type A
+      <span class="fu">communications:</span>
+        <span class="kw">-</span> <span class="fu">model:</span> Communication Type A
+      <span class="fu">counterMeasures:</span>
+        <span class="kw">-</span> <span class="fu">model:</span> Counter Measure Type A
+      <span class="fu">sensors:</span>
+        <span class="kw">-</span> <span class="fu">model:</span> Sensor Type A
+      <span class="fu">armor:</span> Armor Type A
+    <span class="fu">arms:</span>
+      <span class="kw">-</span> <span class="fu">model:</span> Arm Type A
+        <span class="fu">armor:</span> Armor Type A
+        <span class="fu">weapons:</span>
+          <span class="kw">-</span> <span class="fu">model:</span> Weapon Type A
+            <span class="fu">capacitor:</span>
+            <span class="fu">ammo:</span> Projectile Type A
+        <span class="fu">counterMeasures:</span>
+          <span class="kw">-</span> <span class="fu">model:</span> Counter Measure Type A
+      <span class="kw">-</span> <span class="fu">model:</span> Arm Type A
+        <span class="fu">armor:</span> Armor Type A
+        <span class="fu">weapons:</span>
+          <span class="kw">-</span> <span class="fu">model:</span> Weapon Type A
+            <span class="fu">capacitor:</span>
+            <span class="fu">ammo:</span> Projectile Type A
+        <span class="fu">counterMeasures:</span>
+          <span class="kw">-</span> <span class="fu">model:</span> Counter Measure Type A
+    <span class="fu">legs:</span>
+      <span class="kw">-</span> <span class="fu">model:</span> Leg Type A
+        <span class="fu">armor:</span> Armor Type A
+      <span class="kw">-</span> <span class="fu">model:</span> Leg Type A
+        <span class="fu">armor:</span> Armor Type A</code></pre></div>
 <p>No way was I going to write out all of those definitions in Haskell!</p>
 <h2 id="aeson-lens">Aeson + Lens</h2>
 <p>I decided that I wanted to use lenses to access this mess without all the boilerplate. After a little research I found this article <a href="https://www.schoolofhaskell.com/user/tel/lens-aeson-traversals-prisms">Lens/Aeson Traversals/Prisms</a> which explained how to use <a href="https://hackage.haskell.org/package/lens-aeson">Data.Aeson.Lens</a> against a JSON structure. Since the <a href="https://hackage.haskell.org/package/yaml">yaml</a> package on hackage uses <a href="https://hackage.haskell.org/package/aeson">aeson</a> internally it was quite trivial to make this technique work against the above yaml structure.</p>
 <p>Instead of loading the target file as yaml and parsing the structure I simply changed it to load it all as a JSON <code>Value</code>.</p>
-<pre><code class="haskell">
--- Before
-loadServerConfig :: String -> IO Config
-loadServerConfig file = do
-  serverData <- decodeFileEither file :: IO (Either ParseException Config)
-  case serverData of
-    Left err ->
-      die $ show err
-    Right config ->
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Before</span>
+<span class="ot">loadServerConfig ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Config</span>
+loadServerConfig file <span class="fu">=</span> <span class="kw">do</span>
+  serverData <span class="ot">&lt;-</span> decodeFileEither<span class="ot"> file ::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">ParseException</span> <span class="dt">Config</span>)
+  <span class="kw">case</span> serverData <span class="kw">of</span>
+    <span class="dt">Left</span> err <span class="ot">-&gt;</span>
+      die <span class="fu">$</span> show err
+    <span class="dt">Right</span> config <span class="ot">-&gt;</span>
       return config
  
--- After
-loadServerConfig :: String -> IO Value
-loadServerConfig file = do
-  handle <- decodeFile file
-  case handle of
-    Nothing ->
-      die "error loading confg.yml"
-    Just config ->
-      return config
-</code></pre>
+<span class="co">-- After</span>
+<span class="ot">loadServerConfig ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Value</span>
+loadServerConfig file <span class="fu">=</span> <span class="kw">do</span>
+  handle <span class="ot">&lt;-</span> decodeFile file
+  <span class="kw">case</span> handle <span class="kw">of</span>
+    <span class="dt">Nothing</span> <span class="ot">-&gt;</span>
+      die <span class="st">&quot;error loading confg.yml&quot;</span>
+    <span class="dt">Just</span> config <span class="ot">-&gt;</span>
+      return config</code></pre></div>
 <p>And accessing the config fields changed to this:</p>
-<pre><code class="haskell">
--- Before
-(config ^. configServer . serverConnections . connectionsExternal)
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Before</span>
+(config <span class="fu">^.</span> configServer <span class="fu">.</span> serverConnections <span class="fu">.</span> connectionsExternal)
 
--- After
-(fromMaybe 10 (config ^? key "server" . key "connections" . key "external" . _Integral))
-</code></pre>
+<span class="co">-- After</span>
+(fromMaybe <span class="dv">10</span> (config <span class="fu">^?</span> key <span class="st">&quot;server&quot;</span> <span class="fu">.</span> key <span class="st">&quot;connections&quot;</span> <span class="fu">.</span> key <span class="st">&quot;external&quot;</span> <span class="fu">.</span> _<span class="dt">Integral</span>))</code></pre></div>
 <h2 id="conclusion">Conclusion</h2>
 <p>Not a huge difference, right? I gained some sane defaults by using <code>fromMaybe</code>, and the best part, the whole point of this exercise: <strong>I was able to completely get rid of <code>ServerConfig.hs</code></strong>.</p>
 

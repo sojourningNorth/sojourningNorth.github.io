@@ -5,11 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>brian.uncannyworks.com - Haskell Game Server - Part 1 Followup</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
-        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
         <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
         <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
-        <script src="../js/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-1531113-1']);
@@ -55,35 +53,33 @@
 <li>Rather than repeatedly call <code>socketToStreams</code> in each read/send function utilize memoization and store the socket pair in the <code>Client</code> record. This seemed to fix any lingering problems we had.</li>
 </ul>
 <p>The following is the revised code:</p>
-<pre><code class="haskell">
-runClient :: Server -> Client -> IO ()
-runClient server client = forever $ do
-  (mid, msg) <- readMessage (client^.clientInput)
-  handleMessage server (client^.clientId) mid msg
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">runClient ::</span> <span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Client</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+runClient server client <span class="fu">=</span> forever <span class="fu">$</span> <span class="kw">do</span>
+  (mid, msg) <span class="ot">&lt;-</span> readMessage (client<span class="fu">^.</span>clientInput)
+  handleMessage server (client<span class="fu">^.</span>clientId) mid msg
   return ()
 
-readMessage :: Streams.InputStream BS.ByteString -> IO (Word8, BS.ByteString)
-readMessage in' = do
-  inS <- Streams.lockingInputStream in'
-  mid <- handleStream 1 inS
-  lth <- handleStream 2 inS
-  out <- if msgSize lth <= maxMsgSize
-         then handleStream (msgSize lth) inS
-         else return BS.empty
+<span class="ot">readMessage ::</span> <span class="dt">Streams.InputStream</span> <span class="dt">BS.ByteString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Word8</span>, <span class="dt">BS.ByteString</span>)
+readMessage in' <span class="fu">=</span> <span class="kw">do</span>
+  inS <span class="ot">&lt;-</span> Streams.lockingInputStream in'
+  mid <span class="ot">&lt;-</span> handleStream <span class="dv">1</span> inS
+  lth <span class="ot">&lt;-</span> handleStream <span class="dv">2</span> inS
+  out <span class="ot">&lt;-</span> <span class="kw">if</span> msgSize lth <span class="fu">&lt;=</span> maxMsgSize
+         <span class="kw">then</span> handleStream (msgSize lth) inS
+         <span class="kw">else</span> return BS.empty
   return (midData mid, out)
-  where
-    midData mid' = fromIntegral $ runGet getWord8 (BL.fromStrict mid')
-    msgSize lth' = (fromIntegral $ runGet getWord16be (BL.fromStrict lth')) :: Int
-    handleStream len str =
-      handle (\(SomeException e) -> do debug $ "read failed: " ++ show e; return BS.empty) $
+  <span class="kw">where</span>
+    midData mid' <span class="fu">=</span> fromIntegral <span class="fu">$</span> runGet getWord8 (BL.fromStrict mid')
+    msgSize lth' <span class="fu">=</span> (fromIntegral <span class="fu">$</span> runGet getWord16be (BL.fromStrict lth'))<span class="ot"> ::</span> <span class="dt">Int</span>
+    handleStream len str <span class="fu">=</span>
+      handle (\(<span class="dt">SomeException</span> e) <span class="ot">-&gt;</span> <span class="kw">do</span> debug <span class="fu">$</span> <span class="st">&quot;read failed: &quot;</span> <span class="fu">++</span> show e; return BS.empty) <span class="fu">$</span>
         Streams.readExactly len str
 
-sendMessage :: (GameMessage m, Encode m) => m -> Streams.OutputStream BS.ByteString -> IO ()
-sendMessage msg out' = do
-  outS <- Streams.lockingOutputStream out'
-  handle (\(SomeException e) -> debug $ "write failed: " ++ show e ) $
-    Streams.write (Just $ messageOutWithIdAndLength msg) outS
-</code></pre>
+<span class="ot">sendMessage ::</span> (<span class="dt">GameMessage</span> m, <span class="dt">Encode</span> m) <span class="ot">=&gt;</span> m <span class="ot">-&gt;</span> <span class="dt">Streams.OutputStream</span> <span class="dt">BS.ByteString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+sendMessage msg out' <span class="fu">=</span> <span class="kw">do</span>
+  outS <span class="ot">&lt;-</span> Streams.lockingOutputStream out'
+  handle (\(<span class="dt">SomeException</span> e) <span class="ot">-&gt;</span> debug <span class="fu">$</span> <span class="st">&quot;write failed: &quot;</span> <span class="fu">++</span> show e ) <span class="fu">$</span>
+    Streams.write (<span class="dt">Just</span> <span class="fu">$</span> messageOutWithIdAndLength msg) outS</code></pre></div>
 
 <div id="disqus_thread"></div>
 <script>

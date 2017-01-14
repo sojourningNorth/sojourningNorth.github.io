@@ -5,11 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>brian.uncannyworks.com - Haskell Game Server - Part 1</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
-        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
         <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
         <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
-        <script src="../js/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-1531113-1']);
@@ -59,190 +57,174 @@
 <h2 id="networking">Networking</h2>
 <p>We decided to strictly use TCP because this game doesn’t require human input, nor all the magical UDP networking and iterpolation/extrapolation tricks of a first person shooter. The 3d client simply processes messages and displays the scene based on that data, while the SDK clients run on the same network as the game server.</p>
 <p>The primary <code>Main.hs</code> code is as follows:</p>
-<pre><code class="haskell">
-module Main where
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
-import           Control.Concurrent    (forkIO)
-import           Data.Yaml             (ParseException, decodeFileEither)
-import           Network.Socket
+<span class="kw">import           </span><span class="dt">Control.Concurrent</span>    (forkIO)
+<span class="kw">import           </span><span class="dt">Data.Yaml</span>             (<span class="dt">ParseException</span>, decodeFileEither)
+<span class="kw">import           </span><span class="dt">Network.Socket</span>
 
-import           Data.Configurations
-import           Game.Server
+<span class="kw">import           </span><span class="dt">Data.Configurations</span>
+<span class="kw">import           </span><span class="dt">Game.Server</span>
 
-internalPort :: PortNumber
-internalPort = 4000
+<span class="ot">internalPort ::</span> <span class="dt">PortNumber</span>
+internalPort <span class="fu">=</span> <span class="dv">4000</span>
 
-externalPort :: PortNumber
-externalPort = 5000
+<span class="ot">externalPort ::</span> <span class="dt">PortNumber</span>
+externalPort <span class="fu">=</span> <span class="dv">5000</span>
 
-maxInternalConns :: Int
-maxInternalConns = 10
+<span class="ot">maxInternalConns ::</span> <span class="dt">Int</span>
+maxInternalConns <span class="fu">=</span> <span class="dv">10</span>
 
-maxExternalConns :: Int
-maxExternalConns = 10
+<span class="ot">maxExternalConns ::</span> <span class="dt">Int</span>
+maxExternalConns <span class="fu">=</span> <span class="dv">10</span>
 
-maxPlayers :: Int
-maxPlayers = 10
+<span class="ot">maxPlayers ::</span> <span class="dt">Int</span>
+maxPlayers <span class="fu">=</span> <span class="dv">10</span>
 
-acceptClients :: (Server -> Socket -> IO ()) -> Server -> Socket -> IO ()
-acceptClients handler server sock = do
-  (next, _) <- accept sock
-  setSocketOption next NoDelay 1 -- disable nagle
-  _ <- handler server next
+<span class="ot">acceptClients ::</span> (<span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()) <span class="ot">-&gt;</span> <span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+acceptClients handler server sock <span class="fu">=</span> <span class="kw">do</span>
+  (next, _) <span class="ot">&lt;-</span> accept sock
+  setSocketOption next <span class="dt">NoDelay</span> <span class="dv">1</span> <span class="co">-- disable nagle</span>
+  _ <span class="ot">&lt;-</span> handler server next
   acceptClients handler server sock
 
-startListener :: PortNumber -> Int -> (Server -> Socket -> IO ()) -> Server -> IO ()
-startListener port maxClients handler server = do
-  sock <- socket AF_INET Stream defaultProtocol
-  setSocketOption sock ReuseAddr 1
-  bindSocket sock $ SockAddrInet port iNADDR_ANY
+<span class="ot">startListener ::</span> <span class="dt">PortNumber</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()) <span class="ot">-&gt;</span> <span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+startListener port maxClients handler server <span class="fu">=</span> <span class="kw">do</span>
+  sock <span class="ot">&lt;-</span> socket <span class="dt">AF_INET</span> <span class="dt">Stream</span> defaultProtocol
+  setSocketOption sock <span class="dt">ReuseAddr</span> <span class="dv">1</span>
+  bindSocket sock <span class="fu">$</span> <span class="dt">SockAddrInet</span> port iNADDR_ANY
   listen sock maxClients
   acceptClients handler server sock
 
-main :: IO ()
-main = withSocketsDo $ do
-  -- load configurations
-  configData <- decodeFileEither "./data/configurations.yml" :: IO (Either ParseException Configurations)
-  case configData of
-    Left err ->
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> withSocketsDo <span class="fu">$</span> <span class="kw">do</span>
+  <span class="co">-- load configurations</span>
+  configData <span class="ot">&lt;-</span> decodeFileEither <span class="st">&quot;./data/configurations.yml&quot;</span><span class="ot"> ::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">ParseException</span> <span class="dt">Configurations</span>)
+  <span class="kw">case</span> configData <span class="kw">of</span>
+    <span class="dt">Left</span> err <span class="ot">-&gt;</span>
       print err
-    Right configs -> do
-      server <- newServer configs maxPlayers
-      -- external client connections
-      _ <- forkIO $ startListener externalPort maxExternalConns addExternalClient server
-      -- internal client connections
-      _ <- forkIO $ startListener internalPort maxInternalConns addClient server
-      -- start server
-      runWorld server
-</code></pre>
+    <span class="dt">Right</span> configs <span class="ot">-&gt;</span> <span class="kw">do</span>
+      server <span class="ot">&lt;-</span> newServer configs maxPlayers
+      <span class="co">-- external client connections</span>
+      _ <span class="ot">&lt;-</span> forkIO <span class="fu">$</span> startListener externalPort maxExternalConns addExternalClient server
+      <span class="co">-- internal client connections</span>
+      _ <span class="ot">&lt;-</span> forkIO <span class="fu">$</span> startListener internalPort maxInternalConns addClient server
+      <span class="co">-- start server</span>
+      runWorld server</code></pre></div>
 <p>We’ll break this down into simple to understand pieces.</p>
 <p>The first section simply loads our <code>configurations.yml</code> which contains a large amount of mech configuration data (I’m in the process of moving server settings out to their own configuration file as well). It simply loads the file and prints out why it failed with the <code>Left</code> evaluation of the <code>Either</code> type which is returned.</p>
 <p>We apparently need <code>withSocketsDo</code> if this code is to ever run on a Windows machine.</p>
-<pre><code class="haskell">
-main :: IO ()
-main = withSocketsDo $ do
-  -- load configurations
-  configData <- decodeFileEither "./data/configurations.yml" :: IO (Either ParseException Configurations)
-  case configData of
-    Left err ->
-      print err
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> withSocketsDo <span class="fu">$</span> <span class="kw">do</span>
+  <span class="co">-- load configurations</span>
+  configData <span class="ot">&lt;-</span> decodeFileEither <span class="st">&quot;./data/configurations.yml&quot;</span><span class="ot"> ::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">ParseException</span> <span class="dt">Configurations</span>)
+  <span class="kw">case</span> configData <span class="kw">of</span>
+    <span class="dt">Left</span> err <span class="ot">-&gt;</span>
+      print err</code></pre></div>
 <p>Upon successful YAML parsing the <code>Either</code>’s <code>Right</code> is evaluated and creates a new <code>Server</code> (to be defined later). It then runs the network listeners for the internal and external clients in their owns threads, and finally runs the game loop in the main thread.</p>
-<pre><code class="haskell">
-    Right configs -> do
-      server <- newServer configs maxPlayers
-      -- external client connections
-      _ <- forkIO $ startListener externalPort maxExternalConns addExternalClient server
-      -- internal client connections
-      _ <- forkIO $ startListener internalPort maxInternalConns addClient server
-      -- start server
-      runWorld server
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="dt">Right</span> configs <span class="ot">-&gt;</span> <span class="kw">do</span>
+      server <span class="ot">&lt;-</span> newServer configs maxPlayers
+      <span class="co">-- external client connections</span>
+      _ <span class="ot">&lt;-</span> forkIO <span class="fu">$</span> startListener externalPort maxExternalConns addExternalClient server
+      <span class="co">-- internal client connections</span>
+      _ <span class="ot">&lt;-</span> forkIO <span class="fu">$</span> startListener internalPort maxInternalConns addClient server
+      <span class="co">-- start server</span>
+      runWorld server</code></pre></div>
 <p>The <code>startListener</code> function is designed to take a handler function with the signature <code>Server -&gt; Socket -&gt; IO()</code> and listen on the designated port for new client connections. These new connections then get passed off to the <code>acceptClients</code> function.</p>
-<pre><code class="haskell">
-startListener :: PortNumber -> Int -> (Server -> Socket -> IO ()) -> Server -> IO ()
-startListener port maxClients handler server = do
-  sock <- socket AF_INET Stream defaultProtocol
-  setSocketOption sock ReuseAddr 1
-  bindSocket sock $ SockAddrInet port iNADDR_ANY
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">startListener ::</span> <span class="dt">PortNumber</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()) <span class="ot">-&gt;</span> <span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+startListener port maxClients handler server <span class="fu">=</span> <span class="kw">do</span>
+  sock <span class="ot">&lt;-</span> socket <span class="dt">AF_INET</span> <span class="dt">Stream</span> defaultProtocol
+  setSocketOption sock <span class="dt">ReuseAddr</span> <span class="dv">1</span>
+  bindSocket sock <span class="fu">$</span> <span class="dt">SockAddrInet</span> port iNADDR_ANY
   listen sock maxClients
-  acceptClients handler server sock
-</code></pre>
+  acceptClients handler server sock</code></pre></div>
 <p>New socket connections use the socket option <code>NoDelay 1</code> in order to disable the Nagle Algorithm and decrease network latency. The handler then takes the newly connected socket and hands it off to the <code>Server</code> via the handler so it can map a connection to a <code>Client</code> entity, then the listener calls itself again and waits for the next incoming connection.</p>
-<pre><code class="haskell">
-acceptClients :: (Server -> Socket -> IO ()) -> Server -> Socket -> IO ()
-acceptClients handler server sock = do
-  (next, _) <- accept sock
-  setSocketOption next NoDelay 1 -- disable nagle
-  _ <- handler server next
-  acceptClients handler server sock
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">acceptClients ::</span> (<span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()) <span class="ot">-&gt;</span> <span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+acceptClients handler server sock <span class="fu">=</span> <span class="kw">do</span>
+  (next, _) <span class="ot">&lt;-</span> accept sock
+  setSocketOption next <span class="dt">NoDelay</span> <span class="dv">1</span> <span class="co">-- disable nagle</span>
+  _ <span class="ot">&lt;-</span> handler server next
+  acceptClients handler server sock</code></pre></div>
 <h2 id="communication">Communication</h2>
 <p>The next step is to determine a communication strategy. We’ve used <a href="https://developers.google.com/protocol-buffers/?hl=en">Google’s Protocol Buffers</a> before on other projects and they seem like a reasonable way to efficiently pass streaming data back and forth over the wire. The specific Haskell library I am using is <a href="https://hackage.haskell.org/package/protobuf">protobuf</a>. Unfortunately it is not built to auto generate code from <code>.proto</code> files (yet, apparently) which does lead to headaches when you miss a field or put the wrong type in the <code>.proto</code> file your buddy uses, resulting in him scratching his head wondering why things don’t work. The library itself has been quite the pleasure to use though.</p>
 <p>We handle message encoding/decoding with a couple simple functions.</p>
-<pre><code class="haskell">
-{-# LANGUAGE DataKinds     #-}
-{-# LANGUAGE DeriveGeneric #-}
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE DataKinds     #-}</span>
+<span class="ot">{-# LANGUAGE DeriveGeneric #-}</span>
 
-module Game.Messages where
+<span class="kw">module</span> <span class="dt">Game.Messages</span> <span class="kw">where</span>
 
-import qualified Data.Binary           as DB
-import qualified Data.ByteString.Char8 as BS
-import qualified Data.ByteString.Lazy  as BL
-import           Data.Int
-import           Data.ProtocolBuffers
-import           Data.Serialize
-import           Data.Word
+<span class="kw">import qualified</span> <span class="dt">Data.Binary</span>           <span class="kw">as</span> <span class="dt">DB</span>
+<span class="kw">import qualified</span> <span class="dt">Data.ByteString.Char8</span> <span class="kw">as</span> <span class="dt">BS</span>
+<span class="kw">import qualified</span> <span class="dt">Data.ByteString.Lazy</span>  <span class="kw">as</span> <span class="dt">BL</span>
+<span class="kw">import           </span><span class="dt">Data.Int</span>
+<span class="kw">import           </span><span class="dt">Data.ProtocolBuffers</span>
+<span class="kw">import           </span><span class="dt">Data.Serialize</span>
+<span class="kw">import           </span><span class="dt">Data.Word</span>
 
-class GameMessage m where
-  getMessageId :: m -> Word8
+<span class="kw">class</span> <span class="dt">GameMessage</span> m <span class="kw">where</span>
+<span class="ot">  getMessageId ::</span> m <span class="ot">-&gt;</span> <span class="dt">Word8</span>
 
-messageIn :: (GameMessage m, Decode m) => BS.ByteString -> Either String m
-messageIn =
+<span class="ot">messageIn ::</span> (<span class="dt">GameMessage</span> m, <span class="dt">Decode</span> m) <span class="ot">=&gt;</span> <span class="dt">BS.ByteString</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">String</span> m
+messageIn <span class="fu">=</span>
   runGet decodeMessage
 
-messageOut :: (GameMessage m, Encode m) => m -> BS.ByteString
-messageOut =
-  runPut . encodeMessage
+<span class="ot">messageOut ::</span> (<span class="dt">GameMessage</span> m, <span class="dt">Encode</span> m) <span class="ot">=&gt;</span> m <span class="ot">-&gt;</span> <span class="dt">BS.ByteString</span>
+messageOut <span class="fu">=</span>
+  runPut <span class="fu">.</span> encodeMessage
 
-messageOutWithIdAndLength :: (GameMessage m, Encode m) => m -> BS.ByteString
-messageOutWithIdAndLength msg =
+<span class="ot">messageOutWithIdAndLength ::</span> (<span class="dt">GameMessage</span> m, <span class="dt">Encode</span> m) <span class="ot">=&gt;</span> m <span class="ot">-&gt;</span> <span class="dt">BS.ByteString</span>
+messageOutWithIdAndLength msg <span class="fu">=</span>
   BS.concat [mid1, len, out]
-  where
-    mid1 = BL.toStrict $ DB.encode (getMessageId msg)
-    out  = messageOut msg
-    len  = BL.toStrict $ DB.encode (fromIntegral (BS.length out) :: Int16)
-</code></pre>
+  <span class="kw">where</span>
+    mid1 <span class="fu">=</span> BL.toStrict <span class="fu">$</span> DB.encode (getMessageId msg)
+    out  <span class="fu">=</span> messageOut msg
+    len  <span class="fu">=</span> BL.toStrict <span class="fu">$</span> DB.encode (fromIntegral (BS.length out)<span class="ot"> ::</span> <span class="dt">Int16</span>)</code></pre></div>
 <p>We’ve chosen to make our messages 3 bytes at the very least. The first byte denotes the message id, the second two bytes the size of the body of the message, and the remaining bytes the actual body if applicable. We are unfortunately wasting 2 bytes in the case of a message that has no body, however, it means we don’t have to pre-check what kind of message is being passed and avoid writing specific code to handle those exceptions.</p>
 <p>The <code>messageOutWithIdAndLength</code> uses our handy <code>GameMessage</code> class to pull the predefined message id and <code>concat</code> it together with the message’s length and body.</p>
 <p>An example message looks something like this:</p>
-<pre><code class="haskell">
-{-# LANGUAGE DataKinds     #-}
-{-# LANGUAGE DeriveGeneric #-}
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE DataKinds     #-}</span>
+<span class="ot">{-# LANGUAGE DeriveGeneric #-}</span>
 
-module Game.Messages.ClientActionLoginRequest where
+<span class="kw">module</span> <span class="dt">Game.Messages.ClientActionLoginRequest</span> <span class="kw">where</span>
 
-import           Data.ProtocolBuffers
-import           GHC.Generics          (Generic)
+<span class="kw">import           </span><span class="dt">Data.ProtocolBuffers</span>
+<span class="kw">import           </span><span class="dt">GHC.Generics</span>          (<span class="dt">Generic</span>)
 
-import           Game.Messages
+<span class="kw">import           </span><span class="dt">Game.Messages</span>
 
-data ClientActionLoginRequest
-  = ClientActionLoginRequest {
-      username :: Required 1 (Value String)
-    , password :: Required 2 (Value String)
+<span class="kw">data</span> <span class="dt">ClientActionLoginRequest</span>
+  <span class="fu">=</span> <span class="dt">ClientActionLoginRequest</span> {
+<span class="ot">      username ::</span> <span class="dt">Required</span> <span class="dv">1</span> (<span class="dt">Value</span> <span class="dt">String</span>)
+    ,<span class="ot"> password ::</span> <span class="dt">Required</span> <span class="dv">2</span> (<span class="dt">Value</span> <span class="dt">String</span>)
     }
-  deriving (Generic, Show)
+  <span class="kw">deriving</span> (<span class="dt">Generic</span>, <span class="dt">Show</span>)
 
-instance Encode ClientActionLoginRequest
-instance Decode ClientActionLoginRequest
-instance GameMessage ClientActionLoginRequest where
-  getMessageId _ = 200
-</code></pre>
+<span class="kw">instance</span> <span class="dt">Encode</span> <span class="dt">ClientActionLoginRequest</span>
+<span class="kw">instance</span> <span class="dt">Decode</span> <span class="dt">ClientActionLoginRequest</span>
+<span class="kw">instance</span> <span class="dt">GameMessage</span> <span class="dt">ClientActionLoginRequest</span> <span class="kw">where</span>
+  getMessageId _ <span class="fu">=</span> <span class="dv">200</span></code></pre></div>
 <p>And the relevant sections of code from <code>Server.hs</code> to send and receive messages. I am using <a href="https://hackage.haskell.org/package/io-streams">io-streams</a> which is a fantastically simple to use I/O library for processing streams.</p>
 <p>The <code>runClient</code> function runs in its own thread and handles the incoming data from the associated client connection. <code>UserId</code> is a unique identifier which associates the socket with a <code>Client</code> and their <code>Player</code> data.</p>
-<pre><code class="haskell">
--- receive messages
-runClient :: Server -> Socket -> UserId -> IO ()
-runClient server sock uid = do
-  (inS, _) <- Streams.socketToStreams sock        -- utilize the incoming half of the socket
-  mid <- Streams.readExactly 1 inS                -- parse out the message id
-  let sid = fromIntegral $ runGet getWord8 (BL.fromStrict mid) -- turn the byte into a Word8
-  lth <- Streams.readExactly 2 inS                -- parse out the message length
-  when (msgSize lth <= maxMsgSize) $ do           -- check against a max message size to stop abuse
-    msg <- Streams.readExactly (msgSize lth) inS  -- parse out the message body if applicable
-    handleMessage server uid sid msg              -- handle the message
-  runClient server sock uid                       -- loop and wait for the next message
-  where
-    msgSize lth = (fromIntegral $ runGet getWord16be (BL.fromStrict lth)) :: Int
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- receive messages</span>
+<span class="ot">runClient ::</span> <span class="dt">Server</span> <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+runClient server sock uid <span class="fu">=</span> <span class="kw">do</span>
+  (inS, _) <span class="ot">&lt;-</span> Streams.socketToStreams sock        <span class="co">-- utilize the incoming half of the socket</span>
+  mid <span class="ot">&lt;-</span> Streams.readExactly <span class="dv">1</span> inS                <span class="co">-- parse out the message id</span>
+  <span class="kw">let</span> sid <span class="fu">=</span> fromIntegral <span class="fu">$</span> runGet getWord8 (BL.fromStrict mid) <span class="co">-- turn the byte into a Word8</span>
+  lth <span class="ot">&lt;-</span> Streams.readExactly <span class="dv">2</span> inS                <span class="co">-- parse out the message length</span>
+  when (msgSize lth <span class="fu">&lt;=</span> maxMsgSize) <span class="fu">$</span> <span class="kw">do</span>           <span class="co">-- check against a max message size to stop abuse</span>
+    msg <span class="ot">&lt;-</span> Streams.readExactly (msgSize lth) inS  <span class="co">-- parse out the message body if applicable</span>
+    handleMessage server uid sid msg              <span class="co">-- handle the message</span>
+  runClient server sock uid                       <span class="co">-- loop and wait for the next message</span>
+  <span class="kw">where</span>
+    msgSize lth <span class="fu">=</span> (fromIntegral <span class="fu">$</span> runGet getWord16be (BL.fromStrict lth))<span class="ot"> ::</span> <span class="dt">Int</span>
 
--- send message
-sendMessage :: (GameMessage m, Encode m) => m -> Socket -> IO ()
-sendMessage msg sock = do
-  (_, outS) <- Streams.socketToStreams sock
-  handle (\(SomeException e) -> traceIO $ show e ) $
-    Streams.write (Just $ messageOutWithIdAndLength msg) outS
-</code></pre>
+<span class="co">-- send message</span>
+<span class="ot">sendMessage ::</span> (<span class="dt">GameMessage</span> m, <span class="dt">Encode</span> m) <span class="ot">=&gt;</span> m <span class="ot">-&gt;</span> <span class="dt">Socket</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+sendMessage msg sock <span class="fu">=</span> <span class="kw">do</span>
+  (_, outS) <span class="ot">&lt;-</span> Streams.socketToStreams sock
+  handle (\(<span class="dt">SomeException</span> e) <span class="ot">-&gt;</span> traceIO <span class="fu">$</span> show e ) <span class="fu">$</span>
+    Streams.write (<span class="dt">Just</span> <span class="fu">$</span> messageOutWithIdAndLength msg) outS</code></pre></div>
 <h2 id="conclusion">Conclusion</h2>
 <p>Building a networked game server takes an incredible amount of work and we’ve only begun to scratch the surface of all the components which bring it together. Today I touched on some basic networking and communication techniques we are using such as low level <code>Network.Socket</code>’s wrapped in <code>System.IO.Streams</code>, and message passing techniques with <code>Data.ProtocolBuffers</code>. In my next post I will discuss how clients interact with the game, how the game world is managed, and how our <code>Actor</code> class helps us manage scene objects.</p>
 

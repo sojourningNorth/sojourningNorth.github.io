@@ -5,11 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>brian.uncannyworks.com - Weekly Summary 3 - Ending 2016-11-13</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
-        <link rel="stylesheet" href="../css/highlight.css" />
+        <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
         <link rel="alternate" type="application/rss+xml" title="Brian's Technical Blog" href="./feed.xml">
         <link rel="alternate" type="application/atom+xml" title="Brian's Technical Blog" href="./atom.xml">
-        <script src="../js/highlight.pack.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-1531113-1']);
@@ -45,61 +43,57 @@
 
 <p>This was an interesting week full of various technical achievements. Unfortunately I did not manage to stay focused and achieve the goals I lined out last week.</p>
 <h2 id="time-breakdown">Time Breakdown</h2>
-<pre><code>#+BEGIN: clocktable :maxlevel 4 :block thisweek :scope &lt;various&gt;
-#+CAPTION: Clock summary at [2016-11-13 Sun 23:29], for week 2016-W45.
-| File             | Headline                  | Time      |       |       |      |
-|------------------|---------------------------|-----------|-------|-------|------|
-|                  | ALL *Total time*          | *1d 7:00* |       |       |      |
-|------------------|---------------------------|-----------|-------|-------|------|
-| UncannyWorks.org | *File time*               | *0:47*    |       |       |      |
-|                  | Uncanny Works             | 0:47      |       |       |      |
-|                  | \_  Project Management    |           |  0:47 |       |      |
-|                  | \_    Web Site            |           |       |  0:47 |      |
-|                  | \_      Recurring         |           |       |       | 0:47 |
-|------------------|---------------------------|-----------|-------|-------|------|
-| HackSlash.org    | *File time*               | *2:00*    |       |       |      |
-|                  | Hack Slash                | 2:00      |       |       |      |
-|                  | \_  Project Management    |           |  2:00 |       |      |
-|                  | \_    General Programming |           |       |  2:00 |      |
-|------------------|---------------------------|-----------|-------|-------|------|
-| ArmoredBits.org  | *File time*               | *8:19*    |       |       |      |
-|                  | Armored Bits              | 8:19      |       |       |      |
-|                  | \_  Project Management    |           |  8:19 |       |      |
-|                  | \_    Hack Slash Refactor |           |       |  8:19 |      |
-|------------------|---------------------------|-----------|-------|-------|------|
-| FiveMinuteRL.org | *File time*               | *19:54*   |       |       |      |
-|                  | Five Minute Roguelike     | 19:54     |       |       |      |
-|                  | \_  Project Management    |           | 19:54 |       |      |
-|                  | \_    General Programming |           |       | 19:54 |      |
-#+END:</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#+BEGIN: clocktable :maxlevel 4 :block thisweek :scope &lt;various&gt;</span>
+<span class="co">#+CAPTION: Clock summary at [2016-11-13 Sun 23:29], for week 2016-W45.</span>
+<span class="kw">|</span> <span class="kw">File</span>             <span class="kw">|</span> <span class="kw">Headline</span>                  <span class="kw">|</span> <span class="kw">Time</span>      <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|---------------------------|-----------|-------|-------|------|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">ALL</span> *Total time*          <span class="kw">|</span> <span class="kw">*1d</span> 7:00* <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|---------------------------|-----------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">UncannyWorks.org</span> <span class="kw">|</span> <span class="kw">*File</span> time*               <span class="kw">|</span> <span class="kw">*0</span>:47*    <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Uncanny</span> Works             <span class="kw">|</span> <span class="kw">0</span>:47      <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management    <span class="kw">|</span>           <span class="kw">|</span>  <span class="kw">0</span>:47 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    Web Site            <span class="kw">|</span>           <span class="kw">|</span>       <span class="kw">|</span>  <span class="kw">0</span>:47 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>      Recurring         <span class="kw">|</span>           <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span> <span class="kw">0</span>:47 <span class="kw">|</span>
+<span class="kw">|------------------|---------------------------|-----------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">HackSlash.org</span>    <span class="kw">|</span> <span class="kw">*File</span> time*               <span class="kw">|</span> <span class="kw">*2</span>:00*    <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Hack</span> Slash                <span class="kw">|</span> <span class="kw">2</span>:00      <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management    <span class="kw">|</span>           <span class="kw">|</span>  <span class="kw">2</span>:00 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    General Programming <span class="kw">|</span>           <span class="kw">|</span>       <span class="kw">|</span>  <span class="kw">2</span>:00 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|---------------------------|-----------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">ArmoredBits.org</span>  <span class="kw">|</span> <span class="kw">*File</span> time*               <span class="kw">|</span> <span class="kw">*8</span>:19*    <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Armored</span> Bits              <span class="kw">|</span> <span class="kw">8</span>:19      <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management    <span class="kw">|</span>           <span class="kw">|</span>  <span class="kw">8</span>:19 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    Hack Slash Refactor <span class="kw">|</span>           <span class="kw">|</span>       <span class="kw">|</span>  <span class="kw">8</span>:19 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|------------------|---------------------------|-----------|-------|-------|------|</span>
+<span class="kw">|</span> <span class="kw">FiveMinuteRL.org</span> <span class="kw">|</span> <span class="kw">*File</span> time*               <span class="kw">|</span> <span class="kw">*19</span>:54*   <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> <span class="kw">Five</span> Minute Roguelike     <span class="kw">|</span> <span class="kw">19</span>:54     <span class="kw">|</span>       <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>  Project Management    <span class="kw">|</span>           <span class="kw">|</span> <span class="kw">19</span>:54 <span class="kw">|</span>       <span class="kw">|</span>      <span class="kw">|</span>
+<span class="kw">|</span>                  <span class="kw">|</span> \<span class="kw">_</span>    General Programming <span class="kw">|</span>           <span class="kw">|</span>       <span class="kw">|</span> <span class="kw">19</span>:54 <span class="kw">|</span>      <span class="kw">|</span>
+<span class="co">#+END:</span></code></pre></div>
 <h3 id="uncanny-works">Uncanny Works</h3>
 <p>This blog update.</p>
 <h3 id="hack-slash">Hack Slash</h3>
 <p>While I do not recommend public consumption just yet, <a href="https://github.com/uncannyworks/hack-slash">Hack Slash</a> code is now available.</p>
 <p>One of the more interesting things I did here was spend a little time getting the <code>HackM</code> monad working. This is quite simply a type synonym which wraps the <code>State</code> monad with a <code>Scene</code> and a polymorphic game type.</p>
-<pre><code class="haskell">
-type HackM a = State Scene a
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">HackM</span> a <span class="fu">=</span> <span class="dt">State</span> <span class="dt">Scene</span> a</code></pre></div>
 <p>The game developer shouldn’t have to worry about threading a <code>Scene</code> through their functions, which in the beginning I was doing until this new approach dawned on me. They can now use the new <code>HackM</code> monad which gives them access to <code>get</code> and <code>put</code> allowing them to grab and update the <code>Scene</code> only when desired.</p>
-<pre><code class="haskell">
--- old way
-oldNoSceneFunc :: GameLogic -> Scene -> (GameLogic, Scene) -- <-- terrible Scene threading
-oldNoSceneFunc logic scene = (doThingsToGameLogic logic, scene)
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- old way</span>
+<span class="ot">oldNoSceneFunc ::</span> <span class="dt">GameLogic</span> <span class="ot">-&gt;</span> <span class="dt">Scene</span> <span class="ot">-&gt;</span> (<span class="dt">GameLogic</span>, <span class="dt">Scene</span>) <span class="co">-- &lt;-- terrible Scene threading</span>
+oldNoSceneFunc logic scene <span class="fu">=</span> (doThingsToGameLogic logic, scene)
 
-oldSceneFunc :: GameLogic -> Scene -> (GameLogic, Scene)
-oldSceneFunc logic scene = (doThingsToGameLogic logic, doThingsToScene Scene)
+<span class="ot">oldSceneFunc ::</span> <span class="dt">GameLogic</span> <span class="ot">-&gt;</span> <span class="dt">Scene</span> <span class="ot">-&gt;</span> (<span class="dt">GameLogic</span>, <span class="dt">Scene</span>)
+oldSceneFunc logic scene <span class="fu">=</span> (doThingsToGameLogic logic, doThingsToScene <span class="dt">Scene</span>)
 
--- new HackM way
+<span class="co">-- new HackM way</span>
 
-newNoSceneFunc :: GameLogic -> HackM GameLogic
-newNoSceneFunc = return . doThingsToGameLogic
+<span class="ot">newNoSceneFunc ::</span> <span class="dt">GameLogic</span> <span class="ot">-&gt;</span> <span class="dt">HackM</span> <span class="dt">GameLogic</span>
+newNoSceneFunc <span class="fu">=</span> return <span class="fu">.</span> doThingsToGameLogic
 
-newSceneFunc :: GameLogic -> HackM GameLogic
-newSceneFunc logic0 = do
-  scene0 <- get
-  put $ doThingsToScene scene0
-  return $ doThingsToGameLogic logic0
-</code></pre>
+<span class="ot">newSceneFunc ::</span> <span class="dt">GameLogic</span> <span class="ot">-&gt;</span> <span class="dt">HackM</span> <span class="dt">GameLogic</span>
+newSceneFunc logic0 <span class="fu">=</span> <span class="kw">do</span>
+  scene0 <span class="ot">&lt;-</span> get
+  put <span class="fu">$</span> doThingsToScene scene0
+  return <span class="fu">$</span> doThingsToGameLogic logic0</code></pre></div>
 <h3 id="armored-bits">Armored Bits</h3>
 <p>All of the work involved here was integrating the above <code>HackM</code> monad into the system.</p>
 <p>This gave me a lot of insights into where I was doing some things terribly wrong, however, I’m currently pondering how to correctly handle 3 functions which don’t cleanly bridge the gap and as a result didn’t reach my goal of getting AB into a working state.</p>
