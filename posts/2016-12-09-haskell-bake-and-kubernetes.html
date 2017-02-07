@@ -40,15 +40,11 @@
 </div>
 
 <h2 id="background">Background</h2>
-<p>I work at a relatively large 150 employee Japanese social game company as the Lead Infrastructure Engineer on one of their various game projects. My primary duties include building server infrastructure, automating all the things, helping the server programming team out so they can focus on their jobs and not worry about the rest, and handling things if it all goes south. (DevOps, SRE, etc.)</p>
-<h2 id="discussion">Discussion</h2>
-<p>We have a small Kubernetes cluster which I run in order for the client team to be able to test their changes against the stable staging server build and the ever changing development build. Since these server instances see quite a bit of idle time I’ve decided to utilize their extra resources for other things my team needs, such as a build server. I wanted to avoid using memory hungry CI/CDs like Jenkins or Bamboo, and after having recently stumbled across a Haskell CI project called Bake decided to give it a shot.</p>
-<p>This post describes how I have leveraged <a href="https://github.com/ndmitchell/bake">Bake</a> and the power of Kubernetes to create an easily scalable build system which does automated testing (and eventually docker builds and deploys) for my server team. One of the exciting things about this setup is that it becomes relatively trivial to create build servers tuned towards what your project needs. In my case our server team uses Python’s Django which does integration tests against the database. Utilizing Kubernetes <em>pods</em>, I was able to link a MySQL container along with a Bake client container inside the same <em>pod</em> to use for locally ran integration tests.</p>
-<p>Note: This post is fairly code heavy and doesn’t go into deep philosophical reasons on why I made various decisions. It is meant it be more of a guide to help others bootstrap their own Bake build + K8S cluster.</p>
-<h2 id="haskell">Haskell</h2>
-<p>I’m a huge Haskell fan. If I wasn’t working primarily on server infrastructure I could see myself coding in this beautiful language instead. Unfortunately there’s little chance of buy in where I currently work, so sneaking it into side projects is the next best thing.</p>
-<h3 id="step-1---build-server">Step 1 - Build Server</h3>
-<p>For starters we need our Bake CI server. The project maintainer is still actively working on the project (currently v0.5), although there’s not much in the way of examples on advanced usage and configuration yet. That said it’s fairly trivial to chain actions together and use <code>cmd</code> to run what you want.</p>
+<p>
+
+asf asdf
+asdf
+</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
 <span class="kw">import </span><span class="dt">Data.Monoid</span> ((&lt;&gt;))
